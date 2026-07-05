@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == 'edit' %}Edit{% else %}Add{% endif %} Product — Grace Bed Admin{% endblock %}
+{% block extra_css %}
+<style>
+  .admin-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 3%; background:var(--bg-card); border-bottom:1px solid var(--border); margin-bottom:2rem; }
+  .admin-nav-brand { font-family:var(--font-serif); font-size:1.2rem; color:var(--white); }
+  .admin-nav-brand span { color:var(--gold); }
+  .admin-nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .admin-nav-links a { color:var(--cream-dim); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:0.3s; }
+  .admin-nav-links a:hover { color:var(--gold); }
+  .admin-container { max-width:700px; margin:0 auto; padding:0 3% 3rem; }
+  .admin-form { background:var(--bg-card); border:1px solid var(--border); padding:2.5rem; border-radius:4px; }
+  .admin-form h2 { font-family:var(--font-serif); font-size:1.5rem; font-weight:300; color:var(--white); margin-bottom:2rem; }
+  .admin-form .form-group { margin-bottom:1.5rem; }
+  .admin-form .form-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--gold-dim); margin-bottom:0.5rem; display:block; }
+  .admin-form .form-input, .admin-form .form-textarea, .admin-form .form-select { width:100%; padding:0.8rem 1rem; background:var(--bg-deep); border:1px solid var(--border); color:var(--cream); font-family:var(--font-sans); font-size:0.85rem; transition:0.4s cubic-bezier(0.25,0.46,0.45,0.94); border-radius:2px; }
+  .admin-form .form-input:focus, .admin-form .form-textarea:focus { outline:none; border-color:var(--gold-dim); box-shadow:0 0 0 2px rgba(200,169,110,0.1); }
+  .admin-form .form-textarea { min-height:100px; resize:vertical; }
+  .admin-form .form-hint { font-size:0.7rem; color:var(--cream-dim); margin-top:0.3rem; opacity:0.7; }
+  .admin-form .form-actions { display:flex; gap:1rem; margin-top:2rem; }
+  .admin-btn { padding:0.5rem 1rem; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none; border-radius:2px; transition:0.3s; cursor:pointer; border:none; font-family:var(--font-sans); display:inline-block; }
+  .admin-btn-primary { background:var(--gold); color:var(--bg-deep); }
+  .admin-btn-primary:hover { background:var(--gold-bright); }
+  .admin-btn-outline { border:1px solid var(--border-light); color:var(--cream-dim); background:transparent; }
+  .admin-btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+  .current-image { max-width:200px; border-radius:4px; border:1px solid var(--border); margin-top:0.5rem; }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="admin-nav">
+  <a href="/" class="admin-nav-brand">Grace <span>Bed</span></a>
+  <div class="admin-nav-links">
+    <a href="/admin">Dashboard</a>
+    <a href="/">View Site</a>
+    <a href="/admin/logout">Logout</a>
+  </div>
+</div>
+
+<div class="admin-container">
+  <div class="admin-form">
+    <h2>{% if mode == 'edit' %}Edit{% else %}Add New{% endif %} Product</h2>
+
+    <form method="post" action="{% if mode == 'edit' %}/admin/product/edit/{{ product.id }}{% else %}/admin/product/add{% endif %}" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label class="form-label">Product Name *</label>
+        <input type="text" name="name" class="form-input" value="{{ product.name if product else '' }}" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Tagline</label>
+        <input type="text" name="tagline" class="form-input" value="{{ product.tagline if product else '' }}" placeholder="Short tagline for the product">
+      </div>
+
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group">
+          <label class="form-label">Price (e.g. Rs. 185,000)</label>
+          <input type="text" name="price" class="form-input" value="{{ product.price if product else '' }}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price Range</label>
+          <input type="text" name="price_range" class="form-input" value="{{ product.price_range if product else '' }}" placeholder="Rs. 185,000 – Rs. 320,000">
+        </div>
+      </div>
+
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <input type="text" name="category" class="form-input" value="{{ product.category if product else '' }}" placeholder="Frame Bed, Ottoman Bed, etc.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Warranty</label>
+          <input type="text" name="warranty" class="form-input" value="{{ product.warranty if product else '' }}" placeholder="10 Years">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Sizes (comma-separated)</label>
+        <input type="text" name="sizes" class="form-input" value="{{ product.sizes | join(', ') if product else '' }}" placeholder="Single, Double, Queen, King">
+        <p class="form-hint">Separate sizes with commas</p>
+      </div>
+
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group">
+          <label class="form-label">Material</label>
+          <input type="text" name="material" class="form-input" value="{{ product.material if product else '' }}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Finish</label>
+          <input type="text" name="finish" class="form-input" value="{{ product.finish if product else '' }}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Headboard Description</label>
+        <input type="text" name="headboard" class="form-input" value="{{ product.headboard if product else '' }}">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-textarea">{{ product.description if product else '' }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Features (one per line)</label>
+        <textarea name="features" class="form-textarea" placeholder="Hand-carved solid Sheesham wood&#10;24-carat gold leaf detailing&#10;Mortise & tenon joinery">{% if product %}{{ product.features | join('\n') }}{% endif %}</textarea>
+        <p class="form-hint">Enter each feature on a new line</p>
+      </div>
+
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group">
+          <label class="form-label">Accent Color (hex)</label>
+          <input type="text" name="color" class="form-input" value="{{ product.color if product else '#8B4513' }}" placeholder="#8B4513">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Product Image</label>
+          <input type="file" name="image" class="form-input" accept="image/*">
+          {% if product and product.image %}
+          <p class="form-hint">Current: {{ product.image }}</p>
+          <img src="{{ url_for('static', filename='images/products/' + product.image) }}" class="current-image" alt="">
+          {% endif %}
+          <p class="form-hint">Upload a new image to replace. Leave empty to keep existing.</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">{% if mode == 'edit' %}Save Changes{% else %}Create Product{% endif %}</button>
+        <a href="/admin" class="admin-btn admin-btn-outline">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

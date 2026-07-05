@@ -1,0 +1,117 @@
+{
+  "royal-heritage": {
+    "id": "royal-heritage",
+    "name": "Royal Heritage Bed",
+    "tagline": "Where centuries of craft meet modern luxury",
+    "price": "Rs. 185,000",
+    "price_range": "Rs. 185,000 - Rs. 320,000",
+    "category": "Frame Bed",
+    "sizes": [
+      "Single",
+      "Double",
+      "Queen",
+      "King"
+    ],
+    "material": "Solid Sheesham Wood",
+    "finish": "Dark Walnut Polish",
+    "headboard": "Ornate carved headboard with gold inlay",
+    "warranty": "10 Years",
+    "description": "The Royal Heritage is our crown jewel - a masterpiece of Sheesham wood, hand-carved by artisans with decades of experience. Every joint, every curve, every detail speaks of uncompromising quality. This is not just a bed; it is an heirloom.",
+    "features": [
+      "Hand-carved solid Sheesham wood",
+      "24-carat gold leaf detailing",
+      "Mortise & tenon joinery - no screws",
+      "Storage drawers with soft-close mechanism",
+      "Orthopedic slat system included",
+      "Custom size available on order"
+    ],
+    "color": "#8B4513",
+    "image": ""
+  },
+  "obsidian-sultan": {
+    "id": "obsidian-sultan",
+    "name": "Obsidian Sultan Bed",
+    "tagline": "Dark majesty. Silent power.",
+    "price": "Rs. 210,000",
+    "price_range": "Rs. 210,000 - Rs. 380,000",
+    "category": "Ottoman Bed",
+    "sizes": [
+      "Double",
+      "Queen",
+      "King",
+      "Super King"
+    ],
+    "material": "Ebony-stained Mango Wood",
+    "finish": "Jet Black Lacquer",
+    "headboard": "Tufted velvet headboard - deep charcoal",
+    "warranty": "12 Years",
+    "description": "Inspired by the grand courts of the Mughals, the Obsidian Sultan commands every room it enters. Its midnight-black lacquer finish and towering tufted headboard create a silhouette of pure authority. The Ottoman lift-up base provides massive hidden storage.",
+    "features": [
+      "Gas-lift Ottoman storage base",
+      "Tufted velvet headboard (3 colour options)",
+      "Ebony-stained solid mango wood frame",
+      "Anti-scratch lacquer finish",
+      "Silent hydraulic lift mechanism",
+      "Fits standard and custom mattresses"
+    ],
+    "color": "#1a1a2e",
+    "image": ""
+  },
+  "ivory-empress": {
+    "id": "ivory-empress",
+    "name": "Ivory Empress Bed",
+    "tagline": "Elegance carved in light and wood",
+    "price": "Rs. 155,000",
+    "price_range": "Rs. 155,000 - Rs. 260,000",
+    "category": "Divan Bed Set",
+    "sizes": [
+      "Single",
+      "Double",
+      "Queen",
+      "King"
+    ],
+    "material": "White Oak & Rubberwood",
+    "finish": "Ivory Matte with Brass Hardware",
+    "headboard": "Fluted panel headboard with brass rail",
+    "warranty": "8 Years",
+    "description": "The Ivory Empress is femininity distilled into furniture. Pale oak tones, delicate fluted panels, and gleaming brass accents combine in a design that is both old-world and effortlessly modern. A complete divan set - mattress, base, and headboard - all in one.",
+    "features": [
+      "Complete divan set (base + headboard)",
+      "Fluted oak panel design",
+      "Solid brass hardware fittings",
+      "4 drawer under-bed storage",
+      "Hypoallergenic fabric lining",
+      "Modular - splits for easy moving"
+    ],
+    "color": "#c8a96e",
+    "image": ""
+  },
+  "cedar-throne": {
+    "id": "cedar-throne",
+    "name": "Cedar Throne Bed",
+    "tagline": "Built for those who refuse to settle",
+    "price": "Rs. 240,000",
+    "price_range": "Rs. 240,000 - Rs. 420,000",
+    "category": "Luxury Frame Bed",
+    "sizes": [
+      "Queen",
+      "King",
+      "Super King"
+    ],
+    "material": "Himalayan Cedar Wood",
+    "finish": "Natural Cedar with Teak Oil",
+    "headboard": "Cathedral arch headboard - full height",
+    "warranty": "15 Years",
+    "description": "The Cedar Throne is our most prestigious creation. Crafted from rare Himalayan cedar - a wood prized for its natural fragrance, insect resistance, and incredible grain - this bed is built to outlast generations. The cathedral arch headboard stands nearly two metres tall.",
+    "features": [
+      "Rare Himalayan cedar - naturally fragrant",
+      "Cathedral arch headboard (190cm tall)",
+      "Lifetime structural guarantee on frame",
+      "Hand-rubbed teak oil finish",
+      "Integrated USB & wireless charging",
+      "Bespoke engraving available"
+    ],
+    "color": "#6B3A2A",
+    "image": ""
+  }
+}

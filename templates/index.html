@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Grace Bed — Where Wood Becomes Legacy{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-photo-layer hero-photo-1"></div>
+  <div class="hero-photo-layer hero-photo-2"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Luxury Wooden Beds · Glasgow · Est. 2015</p>
+    <h1 class="hero-title">Where Wood<br>Becomes <em>Legacy</em></h1>
+    <p class="hero-tagline">Heirloom-quality beds, handcrafted from the finest woods.<br>Designed to outlast generations.</p>
+    <div class="hero-actions">
+      <a href="/collection" class="btn-primary">Explore Collection</a>
+      <a href="/about" class="btn-outline">Our Craft</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<section>
+  <div class="section-header reveal">
+    <p class="section-eyebrow">The Grace Bed Collection</p>
+    <h2 class="section-title">Four Beds.<br><em>Infinite Refinement.</em></h2>
+    <p class="section-sub">Each piece in our collection is a separate world — a distinct character, a distinct material story.</p>
+  </div>
+
+  <div class="products-grid">
+    {% for key, p in products.items() %}
+    <a href="/product/{{ p.id }}" class="product-card reveal">
+      <div class="product-card-img" style="{% if p.image %}background: transparent;{% else %}background: linear-gradient(135deg, {{ p.color }}22 0%, {{ p.color }}08 100%);{% endif %}">
+        {% if p.image %}
+          <img src="{{ url_for('static', filename='images/products/' + p.image) }}" alt="{{ p.name }}" loading="lazy">
+        {% else %}
+          <div class="product-card-placeholder" style="background: linear-gradient(135deg, {{ p.color }}33 0%, {{ p.color }}11 100%);">
+            {{ p.name[0] }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="product-card-overlay">
+        <p class="product-card-category">{{ p.category }}</p>
+        <h3 class="product-card-name">{{ p.name.replace(' Bed', '') }}<br>Bed</h3>
+        <p class="product-card-price">From {{ p.price }}</p>
+        <span class="product-card-cta">View Details</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<section class="features-strip">
+  <div class="feature-item reveal">
+    <div class="feature-icon">🪵</div>
+    <div class="feature-title">Solid Wood Only</div>
+    <p class="feature-desc">No MDF. No particle board. Every Grace Bed is built from premium solid hardwoods — Oak, Walnut, Cherry, and Ash.</p>
+  </div>
+  <div class="feature-item reveal">
+    <div class="feature-icon">🔨</div>
+    <div class="feature-title">Handcrafted</div>
+    <p class="feature-desc">Each bed takes 3–6 weeks to build. Our master craftsmen have decades of experience and zero shortcuts.</p>
+  </div>
+  <div class="feature-item reveal">
+    <div class="feature-icon">⏳</div>
+    <div class="feature-title">Up to 15-Year Warranty</div>
+    <p class="feature-desc">We build for generations. Every structural joint carries our full warranty — because we know our work holds.</p>
+  </div>
+  <div class="feature-item reveal">
+    <div class="feature-icon">✦</div>
+    <div class="feature-title">Bespoke Available</div>
+    <p class="feature-desc">Custom dimensions, custom finishes, custom engravings. Your bed, your way — without compromise.</p>
+  </div>
+</section>
+
+<section class="quote-section reveal">
+  <p class="quote-text">"A great bed is not furniture. It is the room's reason for existing — the altar at which the rest of the space kneels."</p>
+  <p class="quote-author">Grace Bed — Design Philosophy</p>
+</section>
+
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- Testimonials Section -->
+<section style="padding:5rem 5%;text-align:center;">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">What Our Clients Say</p>
+    <h2 class="section-title">Words From <em>Happy Homes</em></h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:1000px;margin:0 auto;">
+    <div class="reveal" style="background:var(--bg-card);border:1px solid var(--border);padding:2rem;border-radius:4px;text-align:left;">
+      <p style="font-family:var(--font-serif);font-size:1.1rem;font-style:italic;color:var(--cream);line-height:1.6;margin-bottom:1.5rem;">"The Royal Heritage bed exceeded every expectation. The craftsmanship is extraordinary — you can feel the quality in every joint. Our bedroom has been transformed."</p>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#8B4513,#c8a96e);display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);color:#fff;font-size:1.2rem;">A</div>
+        <div>
+          <div style="font-size:0.85rem;color:var(--white);font-weight:500;">Ahmed Khan</div>
+          <div style="font-size:0.7rem;color:var(--cream-dim);">Glasgow, UK</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="background:var(--bg-card);border:1px solid var(--border);padding:2rem;border-radius:4px;text-align:left;">
+      <p style="font-family:var(--font-serif);font-size:1.1rem;font-style:italic;color:var(--cream);line-height:1.6;margin-bottom:1.5rem;">"We ordered the Cedar Throne for our master bedroom. The delivery was seamless and the bed is simply magnificent. Worth every penny."</p>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1a1a2e,#c8a96e);display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);color:#fff;font-size:1.2rem;">S</div>
+        <div>
+          <div style="font-size:0.85rem;color:var(--white);font-weight:500;">Sarah Mitchell</div>
+          <div style="font-size:0.7rem;color:var(--cream-dim);">Edinburgh, UK</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="background:var(--bg-card);border:1px solid var(--border);padding:2rem;border-radius:4px;text-align:left;">
+      <p style="font-family:var(--font-serif);font-size:1.1rem;font-style:italic;color:var(--cream);line-height:1.6;margin-bottom:1.5rem;">"Grace Bed made our custom order exactly as we envisioned. The attention to detail and customer service is unmatched in Scotland."</p>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6B3A2A,#c8a96e);display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);color:#fff;font-size:1.2rem;">R</div>
+        <div>
+          <div style="font-size:0.85rem;color:var(--white);font-weight:500;">Robert & Emma</div>
+          <div style="font-size:0.7rem;color:var(--cream-dim);">Aberdeen, UK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- Newsletter Section -->
+<section style="padding:5rem 5%;text-align:center;">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Stay Connected</p>
+    <h2 class="section-title">Join Our <em>Inner Circle</em></h2>
+    <p class="section-sub">Be the first to know about new collections, exclusive offers, and behind-the-scenes craftsmanship.</p>
+  </div>
+
+  <div class="reveal" style="max-width:500px;margin:0 auto;">
+    <form action="/newsletter" method="post" style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
+      <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:200px;padding:0.9rem 1rem;background:var(--bg-card);border:1px solid var(--border);color:var(--cream);font-family:var(--font-sans);font-size:0.85rem;border-radius:2px;">
+      <button type="submit" class="btn-primary" style="border:none;cursor:pointer;">Subscribe</button>
+    </form>
+    <p style="font-size:0.7rem;color:var(--cream-dim);margin-top:1rem;">No spam. Unsubscribe anytime. We respect your privacy.</p>
+  </div>
+</section>
+
+{% endblock %}

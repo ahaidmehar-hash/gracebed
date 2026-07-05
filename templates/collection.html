@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Collection — Grace Bed{% endblock %}
+{% block content %}
+
+<section class="collection-hero">
+  <div class="reveal">
+    <p class="section-eyebrow">The Grace Bed Collection · 2025</p>
+    <h1 class="section-title" style="font-size:clamp(2.5rem,6vw,5rem);">Four <em>Masterpieces</em></h1>
+    <p class="section-sub">Each bed is a world unto itself. Choose the one that speaks to your soul.</p>
+  </div>
+</section>
+
+<div class="filter-bar reveal">
+  <button class="filter-btn active" data-filter="all">All Beds</button>
+  <button class="filter-btn" data-filter="Frame Bed">Frame Bed</button>
+  <button class="filter-btn" data-filter="Ottoman Bed">Ottoman Bed</button>
+  <button class="filter-btn" data-filter="Divan Bed Set">Divan Set</button>
+  <button class="filter-btn" data-filter="Luxury Frame Bed">Luxury Frame</button>
+</div>
+
+<div class="collection-grid">
+  {% for key, p in products.items() %}
+  <a href="/product/{{ p.id }}" class="collection-card reveal" data-category="{{ p.category }}">
+    <div class="collection-card-visual">
+      {% if p.image %}
+        <img src="{{ url_for('static', filename='images/products/' + p.image) }}" alt="{{ p.name }}" loading="lazy">
+      {% else %}
+        <div class="collection-card-placeholder" style="background: linear-gradient(135deg, {{ p.color }}33 0%, {{ p.color }}11 100%);">
+          {{ p.name[0] }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="collection-card-body">
+      <p class="cc-category">{{ p.category }}</p>
+      <h3 class="cc-name">{{ p.name }}</h3>
+      <p class="cc-tagline">{{ p.tagline }}</p>
+      <div class="cc-footer">
+        <span class="cc-price">{{ p.price_range }}</span>
+        <span class="cc-arrow">View →</span>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<section class="quote-section reveal">
+  <p class="quote-text">"We don't make beds. We make the reason people come home."</p>
+  <p class="quote-author">Grace Bed · Lahore</p>
+</section>
+
+{% endblock %}

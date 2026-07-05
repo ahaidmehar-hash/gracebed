@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Grace Bed{% endblock %}
+{% block extra_css %}
+<style>
+  .admin-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 3%; background:var(--bg-card); border-bottom:1px solid var(--border); margin-bottom:2rem; }
+  .admin-nav-brand { font-family:var(--font-serif); font-size:1.2rem; color:var(--white); }
+  .admin-nav-brand span { color:var(--gold); }
+  .admin-nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .admin-nav-links a { color:var(--cream-dim); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:0.3s; }
+  .admin-nav-links a:hover { color:var(--gold); }
+  .admin-container { max-width:1200px; margin:0 auto; padding:0 3% 3rem; }
+  .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+  .admin-header h1 { font-family:var(--font-serif); font-size:1.8rem; font-weight:300; color:var(--white); }
+  .admin-table-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+  .admin-table { width:100%; border-collapse:collapse; }
+  .admin-table th { background:var(--bg-elevated); padding:1rem; text-align:left; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-dim); font-weight:400; border-bottom:1px solid var(--border); }
+  .admin-table td { padding:1rem; border-bottom:1px solid var(--border); font-size:0.85rem; color:var(--cream); vertical-align:middle; }
+  .admin-table tr:hover td { background:rgba(200,169,110,0.03); }
+  .product-thumb { width:48px; height:48px; border-radius:3px; object-fit:cover; border:1px solid var(--border); }
+  .product-thumb-placeholder { width:48px; height:48px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-size:1.2rem; color:rgba(255,255,255,0.2); border:1px solid var(--border); }
+  .admin-btn { padding:0.5rem 1rem; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none; border-radius:2px; transition:0.3s; cursor:pointer; border:none; font-family:var(--font-sans); display:inline-block; }
+  .admin-btn-primary { background:var(--gold); color:var(--bg-deep); }
+  .admin-btn-primary:hover { background:var(--gold-bright); }
+  .admin-btn-outline { border:1px solid var(--border-light); color:var(--cream-dim); background:transparent; }
+  .admin-btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+  .admin-btn-danger { border:1px solid rgba(180,80,80,0.4); color:#b45050; background:transparent; }
+  .admin-btn-danger:hover { background:rgba(180,80,80,0.1); border-color:#b45050; }
+  .flash-messages { margin-bottom:1.5rem; }
+  .flash-message { padding:0.8rem 1rem; font-size:0.8rem; border-radius:2px; margin-bottom:0.5rem; }
+  .flash-success { background:rgba(80,160,100,0.1); border:1px solid rgba(80,160,100,0.3); color:#50a064; }
+  .flash-error { background:rgba(180,80,80,0.1); border:1px solid rgba(180,80,80,0.3); color:#b45050; }
+  @media (max-width:768px) { .admin-table-wrap { overflow-x:auto; } .admin-table { min-width:700px; } }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="admin-nav">
+  <a href="/" class="admin-nav-brand">Grace <span>Bed</span></a>
+  <div class="admin-nav-links">
+    <a href="/">View Site</a>
+    <a href="/admin/logout">Logout</a>
+  </div>
+</div>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Products</h1>
+    <a href="/admin/product/add" class="admin-btn admin-btn-primary">+ Add Product</a>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash-message flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th style="text-align:right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key, p in products.items() %}
+        <tr>
+          <td>
+            {% if p.image %}
+            <img src="{{ url_for('static', filename='images/products/' + p.image) }}" class="product-thumb" alt="">
+            {% else %}
+            <div class="product-thumb-placeholder" style="background: linear-gradient(135deg, {{ p.color }}33 0%, {{ p.color }}11 100%);">{{ p.name[0] }}</div>
+            {% endif %}
+          </td>
+          <td><strong>{{ p.name }}</strong><br><small style="color:var(--cream-dim);font-size:0.7rem;">{{ p.id }}</small></td>
+          <td>{{ p.category }}</td>
+          <td>{{ p.price_range }}</td>
+          <td style="text-align:right;">
+            <a href="/admin/product/edit/{{ p.id }}" class="admin-btn admin-btn-outline" style="margin-right:0.5rem;">Edit</a>
+            <form method="post" action="/admin/product/delete/{{ p.id }}" style="display:inline;" onsubmit="return confirm('Delete this product? This cannot be undone.');">
+              <button type="submit" class="admin-btn admin-btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — Grace Bed{% endblock %}
+{% block content %}
+
+<section class="product-hero">
+
+  <div class="product-visual">
+    <div class="product-visual-accent" style="background:{{ product.color }};"></div>
+    <div class="product-visual-inner">
+      {% if product.image %}
+        <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="{{ product.name }}">
+      {% else %}
+        <div class="product-visual-placeholder" style="background: linear-gradient(135deg, {{ product.color }}22 0%, {{ product.color }}08 100%);">
+          {{ product.name[0] }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="product-info">
+    <span class="product-badge">{{ product.category }}</span>
+    <h1 class="product-name">{{ product.name }}</h1>
+    <p class="product-tagline-text">{{ product.tagline }}</p>
+    <div class="product-price-display">{{ product.price_range }}</div>
+
+    <p class="product-description">{{ product.description }}</p>
+
+    <div class="product-specs">
+      <div class="spec-item">
+        <div class="spec-label">Material</div>
+        <div class="spec-value">{{ product.material }}</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Finish</div>
+        <div class="spec-value">{{ product.finish }}</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Headboard</div>
+        <div class="spec-value">{{ product.headboard }}</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Warranty</div>
+        <div class="spec-value">{{ product.warranty }}</div>
+      </div>
+    </div>
+
+    <ul class="features-list">
+      {% for feat in product.features %}
+      <li>{{ feat }}</li>
+      {% endfor %}
+    </ul>
+
+    <div class="size-selector">
+      <p class="size-label">Select Size</p>
+      <div class="size-options">
+        {% for size in product.sizes %}
+        <button class="size-btn {% if loop.first %}active{% endif %}">{{ size }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="product-actions">
+      <a href="/contact" class="btn-primary">Enquire Now</a>
+      <a href="/collection" class="btn-outline">Back to Collection</a>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider reveal">
+  <div class="divider-line"></div>
+  <div class="divider-diamond"></div>
+  <div class="divider-line"></div>
+</div>
+
+<section style="padding:5rem 5%;text-align:center;" class="reveal">
+  <p class="section-eyebrow">More From Grace Bed</p>
+  <h2 class="section-title" style="margin-bottom:3rem;">You May Also <em>Love</em></h2>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="/collection" class="btn-primary">View All Beds</a>
+    <a href="/contact" class="btn-outline">Request Custom Order</a>
+  </div>
+</section>
+
+{% endblock %}

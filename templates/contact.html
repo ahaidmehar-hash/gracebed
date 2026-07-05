@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}Contact — Grace Bed{% endblock %}
+{% block content %}
+
+<div class="contact-section">
+
+  <div class="contact-info reveal">
+    <p class="section-eyebrow">Get in Touch</p>
+    <h1>Let's Build<br><em>Your Bed</em></h1>
+    <p>Every Grace Bed begins with a conversation. Tell us what you dream of — size, wood, finish, storage — and our craftsmen will tell you what is possible. Bespoke orders welcome.</p>
+
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Phone / WhatsApp</div>
+          <div class="contact-item-value">+44 1234 567 890</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉</div>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">gracebeds01@outlook.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Showroom</div>
+          <div class="contact-item-value">Unit 2, 3 Siding Ln, Glasgow G5 0DZ, UK</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-item-label">Showroom Hours</div>
+          <div class="contact-item-value">Mon–Sat: 10am – 8pm · Sun: 12pm – 6pm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <form class="contact-form" id="contactForm" action="/contact" method="post">
+      <div class="section-eyebrow" style="margin-bottom:1.5rem;">Send an Enquiry</div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div style="padding:1rem;margin-bottom:1rem;border-radius:3px;font-size:0.85rem;{% if category == 'success' %}background:rgba(80,160,100,0.1);border:1px solid rgba(80,160,100,0.3);color:#50a064;{% else %}background:rgba(180,80,80,0.1);border:1px solid rgba(180,80,80,0.3);color:#b45050;{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fname">First Name</label>
+          <input class="form-input" type="text" id="fname" name="fname" placeholder="Your first name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lname">Last Name</label>
+          <input class="form-input" type="text" id="lname" name="lname" placeholder="Your last name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="phone">Phone / WhatsApp</label>
+        <input class="form-input" type="tel" id="phone" name="phone" placeholder="+44 1234 567 890">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="bed">Bed of Interest</label>
+        <select class="form-select form-input" id="bed" name="bed">
+          <option value="">Select a bed...</option>
+          {% for key, p in products.items() %}
+          <option value="{{ p.id }}">{{ p.name }} — {{ p.category }}</option>
+          {% endfor %}
+          <option value="custom">Custom / Bespoke Order</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="size">Preferred Size</label>
+        <select class="form-select form-input" id="size" name="size">
+          <option value="">Select size...</option>
+          <option>Single</option>
+          <option>Double</option>
+          <option>Queen</option>
+          <option>King</option>
+          <option>Super King</option>
+          <option>Custom</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">Your Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your vision — size, wood preference, finish, special requirements..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%;padding:16px;">Send Enquiry</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- Google Maps -->
+<div style="padding:0 5% 5rem;" class="reveal">
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d143447.8317175707!2d-4.372539903359426!3d55.85553669448346!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48881556205639eb%3A0x71e683b805efd511!2sGlasgow%2C%20UK!5e0!3m2!1sen!2s!4v1699999999999!5m2!1sen!2s" 
+      width="100%" 
+      height="400" 
+      style="border:0;filter:grayscale(100%) invert(92%) contrast(83%);" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</div>
+
+<!-- FAQ Section -->
+<div style="padding:0 5% 6rem;max-width:800px;margin:0 auto;">
+  <div class="section-header reveal" style="padding-top:2rem;">
+    <p class="section-eyebrow">Common Questions</p>
+    <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+  </div>
+
+  <div class="reveal" style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+    <details style="border-bottom:1px solid var(--border);">
+      <summary style="padding:1.5rem;cursor:pointer;font-family:var(--font-serif);font-size:1.1rem;color:var(--white);list-style:none;position:relative;">How long does delivery take? <span style="position:absolute;right:1.5rem;color:var(--gold);">+</span></summary>
+      <div style="padding:0 1.5rem 1.5rem;color:var(--cream-dim);font-size:0.9rem;line-height:1.7;">Standard delivery takes 2-3 weeks within the UK. For bespoke orders, please allow 4-6 weeks as each piece is handcrafted to your specifications. We deliver to all UK mainland addresses.</div>
+    </details>
+    <details style="border-bottom:1px solid var(--border);">
+      <summary style="padding:1.5rem;cursor:pointer;font-family:var(--font-serif);font-size:1.1rem;color:var(--white);list-style:none;position:relative;">Do you offer custom sizes? <span style="position:absolute;right:1.5rem;color:var(--gold);">+</span></summary>
+      <div style="padding:0 1.5rem 1.5rem;color:var(--cream-dim);font-size:0.9rem;line-height:1.7;">Absolutely! Custom dimensions are our specialty. Whether you need an extra-long bed, a specific height, or unique proportions, our craftsmen can accommodate your requirements. Contact us for a bespoke consultation.</div>
+    </details>
+    <details style="border-bottom:1px solid var(--border);">
+      <summary style="padding:1.5rem;cursor:pointer;font-family:var(--font-serif);font-size:1.1rem;color:var(--white);list-style:none;position:relative;">What woods do you use? <span style="position:absolute;right:1.5rem;color:var(--gold);">+</span></summary>
+      <div style="padding:0 1.5rem 1.5rem;color:var(--cream-dim);font-size:0.9rem;line-height:1.7;">We exclusively use solid hardwoods sourced from sustainable forests: Oak, Walnut, Cherry, and Ash. Each wood is selected for its grain pattern, durability, and character. We never use MDF, particle board, or engineered wood.</div>
+    </details>
+    <details style="border-bottom:1px solid var(--border);">
+      <summary style="padding:1.5rem;cursor:pointer;font-family:var(--font-serif);font-size:1.1rem;color:var(--white);list-style:none;position:relative;">Can I visit your showroom? <span style="position:absolute;right:1.5rem;color:var(--gold);">+</span></summary>
+      <div style="padding:0 1.5rem 1.5rem;color:var(--cream-dim);font-size:0.9rem;line-height:1.7;">Yes! Our showroom at Unit 2, 3 Siding Ln, Glasgow G5 0DZ is open Monday to Saturday 10am-8pm and Sunday 12pm-6pm. We recommend booking an appointment for bespoke consultations to ensure dedicated time with our design team.</div>
+    </details>
+    <details>
+      <summary style="padding:1.5rem;cursor:pointer;font-family:var(--font-serif);font-size:1.1rem;color:var(--white);list-style:none;position:relative;">What is your warranty? <span style="position:absolute;right:1.5rem;color:var(--gold);">+</span></summary>
+      <div style="padding:0 1.5rem 1.5rem;color:var(--cream-dim);font-size:0.9rem;line-height:1.7;">All Grace Beds come with a 10-year structural warranty. Our Cedar Throne collection includes a 15-year warranty. This covers the frame, joints, and structural integrity. We also offer a lifetime repair service for any issues outside warranty.</div>
+    </details>
+  </div>
+</div>
+
+{% endblock %}
