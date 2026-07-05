@@ -1269,3 +1269,229 @@ footer {
   .hero-actions { flex-direction: column; align-items: center; }
   .hero-actions .btn-primary, .hero-actions .btn-outline { width: 100%; max-width: 260px; text-align: center; }
 }
+/* ── Velvet Throne Section ───────────────────────────────────────── */
+.velvet-throne-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.velvet-throne-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.velvet-throne-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10,9,8,0.92) 0%, rgba(10,9,8,0.75) 50%, rgba(10,9,8,0.4) 100%);
+}
+
+.velvet-throne-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(10,9,8,0.95) 0%, transparent 30%, transparent 70%, rgba(10,9,8,0.9) 100%);
+}
+
+.velvet-throne-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 600px;
+  align-items: center;
+}
+
+.vt-left {
+  padding: 4rem 5%;
+}
+
+.vt-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.vt-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--cream-dim);
+  letter-spacing: 0.05em;
+}
+
+.vt-meta-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--cream-dim);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.vt-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.vt-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.vt-cedar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.vt-cedar svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--gold);
+  stroke-width: 1;
+  fill: none;
+}
+
+.vt-cedar-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin: 0;
+}
+
+.vt-cedar-value {
+  font-size: 0.8rem;
+  color: var(--cream);
+  margin: 0;
+  font-weight: 400;
+}
+
+.vt-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vt-brand svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  fill: none;
+}
+
+.vt-brand-name {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+.vt-right {
+  padding: 4rem 5%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.vt-panel {
+  background: rgba(18, 16, 14, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2.5rem;
+  max-width: 420px;
+  backdrop-filter: blur(10px);
+}
+
+.vt-feature {
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.vt-feature:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.vt-feature-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.vt-feature-title span {
+  color: var(--gold);
+  margin-right: 0.5rem;
+}
+
+.vt-feature-desc {
+  font-size: 0.85rem;
+  color: var(--cream-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.vt-guarantee {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.vt-guarantee-text {
+  font-size: 0.85rem;
+  color: var(--cream-dim);
+}
+
+.vt-guarantee-badge {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vt-guarantee-badge span {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .velvet-throne-inner {
+    grid-template-columns: 1fr;
+  }
+  .vt-right {
+    justify-content: center;
+    padding: 2rem 5% 4rem;
+  }
+  .vt-left {
+    padding: 3rem 5% 1rem;
+  }
+}
