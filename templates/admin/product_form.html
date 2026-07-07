@@ -24,6 +24,13 @@
   .admin-btn-outline { border:1px solid var(--border-light); color:var(--cream-dim); background:transparent; }
   .admin-btn-outline:hover { border-color:var(--gold); color:var(--gold); }
   .current-image { max-width:200px; border-radius:4px; border:1px solid var(--border); margin-top:0.5rem; }
+
+  .image-grid { display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.75rem; }
+  .image-tile { position:relative; width:110px; }
+  .image-tile img { width:110px; height:110px; object-fit:cover; border-radius:4px; border:1px solid var(--border); display:block; }
+  .image-tile .remove-label { display:flex; align-items:center; gap:0.35rem; margin-top:0.4rem; font-size:0.65rem; color:var(--cream-dim); cursor:pointer; }
+  .image-tile .remove-label input { accent-color:#c0392b; }
+  .image-count-hint { font-size:0.7rem; color:var(--gold-dim); margin-top:0.4rem; }
 </style>
 {% endblock %}
 {% block content %}
@@ -114,13 +121,24 @@
           <input type="text" name="color" class="form-input" value="{{ product.color if product else '#8B4513' }}" placeholder="#8B4513">
         </div>
         <div class="form-group">
-          <label class="form-label">Product Image</label>
-          <input type="file" name="image" class="form-input" accept="image/*">
-          {% if product and product.image %}
-          <p class="form-hint">Current: {{ product.image }}</p>
-          <img src="{{ url_for('static', filename='images/products/' + product.image) }}" class="current-image" alt="">
+          <label class="form-label">Product Images (up to 6)</label>
+          <input type="file" name="images" class="form-input" accept="image/*" multiple>
+          <p class="form-hint">Select multiple photos at once (hold Ctrl/Cmd while choosing files). New photos are added to the ones already saved below.</p>
+
+          {% if product and product.images %}
+          <div class="image-grid">
+            {% for img in product.images %}
+            <div class="image-tile">
+              <img src="{{ url_for('static', filename='images/products/' + img) }}" alt="">
+              <label class="remove-label">
+                <input type="checkbox" name="remove_images" value="{{ img }}">
+                Remove
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+          <p class="image-count-hint">{{ product.images | length }} of 6 image slots used</p>
           {% endif %}
-          <p class="form-hint">Upload a new image to replace. Leave empty to keep existing.</p>
         </div>
       </div>
 

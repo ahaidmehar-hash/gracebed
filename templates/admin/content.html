@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Site Content — Grace Bed Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body { background: var(--bg-deep, #0d0d10); color: var(--cream, #ece5d8); font-family: var(--font-sans, 'Montserrat', sans-serif); }
+    .admin-wrap { max-width: 800px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+    .admin-topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+    .admin-topbar a { color: var(--gold, #c8a96e); text-decoration:none; font-size:0.85rem; }
+    h1 { font-family: var(--font-serif, 'Cormorant Garamond', serif); font-size: 2rem; margin-bottom: 0.5rem; }
+    h3 { font-family: var(--font-serif, 'Cormorant Garamond', serif); color: var(--gold, #c8a96e); font-size: 1.3rem; margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--border, #2a2a30); padding-bottom: 0.5rem; }
+    label { display:block; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color: var(--cream-dim, #9a9488); margin: 1rem 0 0.4rem; }
+    input[type="text"], textarea {
+      width:100%; padding:0.7rem 0.9rem; background: var(--bg-card, #17171c);
+      border:1px solid var(--border, #2a2a30); color: var(--cream, #ece5d8);
+      font-family: var(--font-sans, 'Montserrat', sans-serif); font-size:0.9rem; border-radius:3px; box-sizing:border-box;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .flash { padding:1rem; margin-bottom:1.5rem; border-radius:3px; font-size:0.85rem; }
+    .flash.success { background:rgba(80,160,100,0.1); border:1px solid rgba(80,160,100,0.3); color:#50a064; }
+    .flash.error { background:rgba(180,80,80,0.1); border:1px solid rgba(180,80,80,0.3); color:#b45050; }
+    .stat-row { display:flex; gap:0.6rem; }
+    .stat-row input { width: 50%; }
+    button.save-btn {
+      margin-top:2.5rem; width:100%; padding:1rem; background: var(--gold, #c8a96e);
+      color: var(--bg-deep, #0d0d10); border:none; font-size:0.85rem; text-transform:uppercase;
+      letter-spacing:0.1em; cursor:pointer; border-radius:3px; font-weight:500;
+    }
+    button.save-btn:hover { opacity:0.9; }
+  </style>
+</head>
+<body>
+<div class="admin-wrap">
+
+  <div class="admin-topbar">
+    <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    <a href="{{ url_for('admin_logout') }}">Logout</a>
+  </div>
+
+  <h1>Edit Site Content</h1>
+  <p style="color:var(--cream-dim,#9a9488);font-size:0.9rem;">Update text shown across the homepage, about page, contact page, and footer. Changes go live immediately after saving.</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+
+    <h3>Hero Section (Homepage)</h3>
+    <label>Eyebrow text</label>
+    <input type="text" name="hero_eyebrow" value="{{ content.hero.eyebrow }}">
+
+    <label>Title Line 1</label>
+    <input type="text" name="hero_title_line1" value="{{ content.hero.title_line1 }}">
+
+    <label>Title Emphasis (italic part, after "Becomes")</label>
+    <input type="text" name="hero_title_emphasis" value="{{ content.hero.title_emphasis }}">
+
+    <label>Tagline (HTML &lt;br&gt; allowed for line break)</label>
+    <textarea name="hero_tagline">{{ content.hero.tagline }}</textarea>
+
+    <h3>Contact Info</h3>
+    <label>Phone (display, e.g. +44 1234 567 890)</label>
+    <input type="text" name="phone_display" value="{{ content.contact.phone_display }}">
+
+    <label>Phone (link format — digits only, no + or spaces, e.g. 441234567890)</label>
+    <input type="text" name="phone_link" value="{{ content.contact.phone_link }}">
+
+    <label>Email</label>
+    <input type="text" name="email" value="{{ content.contact.email }}">
+
+    <label>Address</label>
+    <input type="text" name="address" value="{{ content.contact.address }}">
+
+    <label>Showroom Hours</label>
+    <input type="text" name="hours" value="{{ content.contact.hours }}">
+
+    <label>WhatsApp Number (digits only, no + or spaces)</label>
+    <input type="text" name="whatsapp_number" value="{{ content.contact.whatsapp_number }}">
+
+    <h3>Footer</h3>
+    <label>Brand Description</label>
+    <textarea name="brand_desc">{{ content.footer.brand_desc }}</textarea>
+
+    <label>Copyright Text</label>
+    <input type="text" name="copyright" value="{{ content.footer.copyright }}">
+
+    <label>Footer Tagline</label>
+    <input type="text" name="footer_tagline" value="{{ content.footer.tagline }}">
+
+    <label>Instagram URL</label>
+    <input type="text" name="instagram" value="{{ content.footer.instagram }}">
+
+    <label>Facebook URL</label>
+    <input type="text" name="facebook" value="{{ content.footer.facebook }}">
+
+    <h3>About Page</h3>
+    <label>Eyebrow text</label>
+    <input type="text" name="about_eyebrow" value="{{ content.about.eyebrow }}">
+
+    <label>Tagline</label>
+    <input type="text" name="about_tagline" value="{{ content.about.tagline }}">
+
+    <label>Story Heading Line 1</label>
+    <input type="text" name="story_heading_line1" value="{{ content.about.story_heading_line1 }}">
+
+    <label>Story Heading Line 2</label>
+    <input type="text" name="story_heading_line2" value="{{ content.about.story_heading_line2 }}">
+
+    <label>Story Paragraph 1</label>
+    <textarea name="story_para1">{{ content.about.story_para1 }}</textarea>
+
+    <label>Story Paragraph 2</label>
+    <textarea name="story_para2">{{ content.about.story_para2 }}</textarea>
+
+    <label>Story Paragraph 3</label>
+    <textarea name="story_para3">{{ content.about.story_para3 }}</textarea>
+
+    <label>Stat 1 — Number / Label</label>
+    <div class="stat-row">
+      <input type="text" name="stat1_number" value="{{ content.about.stat1_number }}" placeholder="Number">
+      <input type="text" name="stat1_label" value="{{ content.about.stat1_label }}" placeholder="Label">
+    </div>
+
+    <label>Stat 2 — Number / Label</label>
+    <div class="stat-row">
+      <input type="text" name="stat2_number" value="{{ content.about.stat2_number }}" placeholder="Number">
+      <input type="text" name="stat2_label" value="{{ content.about.stat2_label }}" placeholder="Label">
+    </div>
+
+    <label>Stat 3 — Number / Label</label>
+    <div class="stat-row">
+      <input type="text" name="stat3_number" value="{{ content.about.stat3_number }}" placeholder="Number">
+      <input type="text" name="stat3_label" value="{{ content.about.stat3_label }}" placeholder="Label">
+    </div>
+
+    <label>Stat 4 — Number / Label</label>
+    <div class="stat-row">
+      <input type="text" name="stat4_number" value="{{ content.about.stat4_number }}" placeholder="Number">
+      <input type="text" name="stat4_label" value="{{ content.about.stat4_label }}" placeholder="Label">
+    </div>
+
+    <label>Quote Text</label>
+    <textarea name="quote_text">{{ content.about.quote_text }}</textarea>
+
+    <label>Quote Author</label>
+    <input type="text" name="quote_author" value="{{ content.about.quote_author }}">
+
+    <button type="submit" class="save-btn">Save Changes</button>
+  </form>
+
+</div>
+</body>
+</html>

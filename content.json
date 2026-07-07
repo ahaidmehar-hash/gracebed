@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "eyebrow": "Luxury Wooden Beds · Glasgow · Est. 2015",
+    "title_line1": "Where Wood",
+    "title_emphasis": "Becomes Legacy",
+    "tagline": "Heirloom-quality beds, handcrafted from the finest woods.<br>Designed to outlast generations."
+  },
+  "contact": {
+    "phone_display": "+44 1234 567 890",
+    "phone_link": "+441234567890",
+    "email": "gracebeds01@outlook.com",
+    "address": "Unit 2, 3 Siding Ln, Glasgow G5 0DZ, UK",
+    "hours": "Mon–Sat: 10am – 8pm · Sun: 12pm – 6pm",
+    "whatsapp_number": "+441234567444"
+  },
+  "footer": {
+    "brand_desc": "Where the silence of ancient forests becomes the furniture of your dreams. Every Grace Bed is built by hand, built to last, built to be inherited.",
+    "copyright": "© 2025 Grace Bed. All rights reserved.",
+    "tagline": "Crafted with precision. Built to last.",
+    "instagram": "https://instagram.com/gracebed",
+    "facebook": "https://facebook.com/gracebed"
+  },
+  "about": {
+    "eyebrow": "Est. 2015 · Glasgow, United Kingdom",
+    "tagline": "A decade of sawdust, polish, and the quiet pride of craftsmanship.",
+    "story_heading_line1": "Born in a Workshop,",
+    "story_heading_line2": "Built for Palaces",
+    "story_para1": "Grace Bed began in 2015 in a small workshop on the outskirts of Glasgow. Our founder, a third-generation carpenter, believed that Scotland's craftsmen had the skill to produce beds worthy of the world's most discerning homes — they just needed someone willing to set the standard.",
+    "story_para2": "Ten years later, every Grace Bed is still built by hand. We have grown our team, expanded our wood selection, and added new techniques — but the fundamental truth of our business has never changed: we will not use a single piece of material we would be ashamed of.",
+    "story_para3": "Every joint is mortised. Every surface is hand-finished. Every bed is inspected for four hours before it leaves our doors. This is not a production line. It is a craft tradition.",
+    "stat1_number": "10+",
+    "stat1_label": "Years of Craft",
+    "stat2_number": "1,200+",
+    "stat2_label": "Beds Delivered",
+    "stat3_number": "4",
+    "stat3_label": "Master Craftsmen",
+    "stat4_number": "100%",
+    "stat4_label": "Solid Wood",
+    "quote_text": "My grandfather built furniture that is still in use today. That is the only standard I know.",
+    "quote_author": "Founder, Grace Bed · Glasgow"
+  }
+}

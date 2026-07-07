@@ -10,19 +10,29 @@ app.secret_key = os.environ.get('SECRET_KEY', 'gracebed-dev-secret-2025')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PRODUCTS_JSON = os.path.join(BASE_DIR, 'products.json')
-UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'images', 'products')
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+PRODUCTS_JSON  = os.path.join(BASE_DIR, 'products.json')
+CONTENT_JSON   = os.path.join(BASE_DIR, 'content.json')
+GALLERY_JSON   = os.path.join(BASE_DIR, 'gallery.json')
+SETTINGS_JSON  = os.path.join(BASE_DIR, 'settings.json')
+
+UPLOAD_FOLDER  = os.path.join(BASE_DIR, 'static', 'images', 'products')
+GALLERY_FOLDER = os.path.join(BASE_DIR, 'static', 'images', 'gallery')
+BG_FOLDER      = os.path.join(BASE_DIR, 'static', 'images', 'bg')
+
+os.makedirs(UPLOAD_FOLDER,  exist_ok=True)
+os.makedirs(GALLERY_FOLDER, exist_ok=True)
+os.makedirs(BG_FOLDER,      exist_ok=True)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+MAX_IMAGES_PER_PRODUCT = 6
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'gracebed2025')
 
 # Email configuration
-app.config['MAIL_SERVER'] = 'smtp.office365.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'gracebeds01@outlook.com'
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', '')
+app.config['MAIL_SERVER']         = 'smtp.office365.com'
+app.config['MAIL_PORT']           = 587
+app.config['MAIL_USE_TLS']        = True
+app.config['MAIL_USERNAME']       = 'gracebeds01@outlook.com'
+app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', '')
 app.config['MAIL_DEFAULT_SENDER'] = 'gracebeds01@outlook.com'
 mail = Mail(app)
 
@@ -49,7 +59,8 @@ SEED_PRODUCTS = {
             "Custom size available on order"
         ],
         "color": "#8B4513",
-        "image": ""
+        "image": "",
+        "images": []
     },
     "obsidian-sultan": {
         "id": "obsidian-sultan",
@@ -73,7 +84,8 @@ SEED_PRODUCTS = {
             "Fits standard and custom mattresses"
         ],
         "color": "#1a1a2e",
-        "image": ""
+        "image": "",
+        "images": []
     },
     "ivory-empress": {
         "id": "ivory-empress",
@@ -97,7 +109,8 @@ SEED_PRODUCTS = {
             "Modular - splits for easy moving"
         ],
         "color": "#c8a96e",
-        "image": ""
+        "image": "",
+        "images": []
     },
     "cedar-throne": {
         "id": "cedar-throne",
@@ -121,20 +134,121 @@ SEED_PRODUCTS = {
             "Bespoke engraving available"
         ],
         "color": "#6B3A2A",
-        "image": ""
+        "image": "",
+        "images": []
     }
 }
 
+SEED_CONTENT = {
+    "hero": {
+        "eyebrow": "Luxury Wooden Beds · Glasgow · Est. 2015",
+        "title_line1": "Where Wood",
+        "title_emphasis": "Becomes Legacy",
+        "tagline": "Heirloom-quality beds, handcrafted from the finest woods.<br>Designed to outlast generations."
+    },
+    "contact": {
+        "phone_display": "+44 1234 567 890",
+        "phone_link": "441234567890",
+        "email": "gracebeds01@outlook.com",
+        "address": "Unit 2, 3 Siding Ln, Glasgow G5 0DZ, UK",
+        "hours": "Mon–Sat: 10am – 8pm · Sun: 12pm – 6pm",
+        "whatsapp_number": "441234567890"
+    },
+    "footer": {
+        "brand_desc": "Where the silence of ancient forests becomes the furniture of your dreams. Every Grace Bed is built by hand, built to last, built to be inherited.",
+        "copyright": "© 2025 Grace Bed. All rights reserved.",
+        "tagline": "Crafted with precision. Built to last.",
+        "instagram": "https://instagram.com/gracebed",
+        "facebook": "https://facebook.com/gracebed"
+    },
+    "about": {
+        "eyebrow": "Est. 2015 · Glasgow, United Kingdom",
+        "tagline": "A decade of sawdust, polish, and the quiet pride of craftsmanship.",
+        "story_heading_line1": "Born in a Workshop,",
+        "story_heading_line2": "Built for Palaces",
+        "story_para1": "Grace Bed began in 2015 in a small workshop on the outskirts of Glasgow. Our founder, a third-generation carpenter, believed that Scotland's craftsmen had the skill to produce beds worthy of the world's most discerning homes — they just needed someone willing to set the standard.",
+        "story_para2": "Ten years later, every Grace Bed is still built by hand. We have grown our team, expanded our wood selection, and added new techniques — but the fundamental truth of our business has never changed: we will not use a single piece of material we would be ashamed of.",
+        "story_para3": "Every joint is mortised. Every surface is hand-finished. Every bed is inspected for four hours before it leaves our doors. This is not a production line. It is a craft tradition.",
+        "stat1_number": "10+",
+        "stat1_label": "Years of Craft",
+        "stat2_number": "1,200+",
+        "stat2_label": "Beds Delivered",
+        "stat3_number": "4",
+        "stat3_label": "Master Craftsmen",
+        "stat4_number": "100%",
+        "stat4_label": "Solid Wood",
+        "quote_text": "My grandfather built furniture that is still in use today. That is the only standard I know.",
+        "quote_author": "Founder, Grace Bed · Glasgow"
+    }
+}
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
 def load_products():
     if not os.path.exists(PRODUCTS_JSON):
         save_products(SEED_PRODUCTS)
         return dict(SEED_PRODUCTS)
     with open(PRODUCTS_JSON, 'r', encoding='utf-8') as f:
-        return json.load(f)
+        data = json.load(f)
+    # Migrate legacy single-"image" products to the new "images" list format,
+    # without breaking any template that still reads product.image directly.
+    changed = False
+    for p in data.values():
+        if 'images' not in p:
+            p['images'] = [p['image']] if p.get('image') else []
+            changed = True
+        if not p.get('image') and p.get('images'):
+            p['image'] = p['images'][0]
+            changed = True
+    if changed:
+        save_products(data)
+    return data
 
 def save_products(data):
     with open(PRODUCTS_JSON, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+
+def load_content():
+    if not os.path.exists(CONTENT_JSON):
+        save_content(SEED_CONTENT)
+        return dict(SEED_CONTENT)
+    with open(CONTENT_JSON, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    for section, defaults in SEED_CONTENT.items():
+        if section not in data:
+            data[section] = defaults
+        else:
+            for key, val in defaults.items():
+                if key not in data[section]:
+                    data[section][key] = val
+    return data
+
+def save_content(data):
+    with open(CONTENT_JSON, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+def load_gallery():
+    if not os.path.exists(GALLERY_JSON):
+        return []
+    with open(GALLERY_JSON, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_gallery(data):
+    with open(GALLERY_JSON, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+def load_settings():
+    if not os.path.exists(SETTINGS_JSON):
+        return {'bg_image': ''}
+    with open(SETTINGS_JSON, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_settings(data):
+    with open(SETTINGS_JSON, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+@app.context_processor
+def inject_content():
+    return {'content': load_content()}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -142,6 +256,34 @@ def allowed_file(filename):
 def slugify(name):
     return name.lower().strip().replace(' ', '-').replace('_', '-')[:50]
 
+def save_product_images(files, product_id):
+    """
+    Save a list of uploaded FileStorage objects for a product.
+    Returns a list of saved filenames (in upload order).
+    Each filename is unique (product_id + timestamp + index) so re-uploads
+    never collide with previously saved images.
+    """
+    saved = []
+    stamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
+    for i, file in enumerate(files):
+        if not file or not file.filename:
+            continue
+        if not allowed_file(file.filename):
+            continue
+        ext = file.filename.rsplit('.', 1)[1].lower()
+        filename = f"{product_id}-{stamp}-{i}.{ext}"
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        saved.append(filename)
+    return saved
+
+def delete_product_image(filename):
+    if not filename:
+        return
+    path = os.path.join(UPLOAD_FOLDER, filename)
+    if os.path.exists(path):
+        os.remove(path)
+
+# ── Public routes ─────────────────────────────────────────────────────────────
 @app.route('/')
 def home():
     products = load_products()
@@ -164,26 +306,27 @@ def product(product_id):
 def about():
     return render_template('about.html')
 
+@app.route('/workshop')
+def workshop():
+    gallery  = load_gallery()
+    settings = load_settings()
+    return render_template('workshop.html', gallery=gallery, settings=settings)
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     products = load_products()
     if request.method == 'POST':
-        name = request.form.get('fname', '') + ' ' + request.form.get('lname', '')
-        email = request.form.get('email', '')
-        phone = request.form.get('phone', '')
-        bed = request.form.get('bed', '')
-        size = request.form.get('size', '')
+        name    = request.form.get('fname', '') + ' ' + request.form.get('lname', '')
+        email   = request.form.get('email', '')
+        phone   = request.form.get('phone', '')
+        bed     = request.form.get('bed', '')
+        size    = request.form.get('size', '')
         message = request.form.get('message', '')
 
-        # Save enquiry to file
         enquiry = {
             'date': str(datetime.now()),
-            'name': name,
-            'email': email,
-            'phone': phone,
-            'bed': bed,
-            'size': size,
-            'message': message
+            'name': name, 'email': email, 'phone': phone,
+            'bed': bed, 'size': size, 'message': message
         }
 
         enquiries_file = os.path.join(BASE_DIR, 'enquiries.json')
@@ -205,6 +348,32 @@ def api_products():
     products = load_products()
     return jsonify(list(products.values()))
 
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+@app.route('/newsletter', methods=['POST'])
+def newsletter():
+    email = request.form.get('email', '').strip()
+    if email:
+        newsletter_file = os.path.join(BASE_DIR, 'newsletter.json')
+        subscribers = []
+        if os.path.exists(newsletter_file):
+            with open(newsletter_file, 'r', encoding='utf-8') as f:
+                subscribers = json.load(f)
+        subscribers.append({'email': email, 'date': str(datetime.now())})
+        with open(newsletter_file, 'w', encoding='utf-8') as f:
+            json.dump(subscribers, f, indent=2, ensure_ascii=False)
+        flash('Thank you for subscribing! You will receive our latest updates.', 'success')
+    else:
+        flash('Please enter a valid email address.', 'error')
+    return redirect(url_for('home'))
+
+# ── Admin auth ────────────────────────────────────────────────────────────────
 def admin_required(f):
     from functools import wraps
     @wraps(f)
@@ -232,6 +401,7 @@ def admin_logout():
     session.pop('admin_logged_in', None)
     return redirect(url_for('admin_login'))
 
+# ── Admin — Products ──────────────────────────────────────────────────────────
 @app.route('/admin')
 @admin_required
 def admin_dashboard():
@@ -255,36 +425,32 @@ def admin_add_product():
             product_id = f"{base_id}-{counter}"
             counter += 1
 
-        image_filename = ''
-        if 'image' in request.files:
-            file = request.files['image']
-            if file and file.filename and allowed_file(file.filename):
-                ext = file.filename.rsplit('.', 1)[1].lower()
-                image_filename = f"{product_id}.{ext}"
-                file.save(os.path.join(UPLOAD_FOLDER, image_filename))
+        # Multiple images support
+        files = request.files.getlist('images') if 'images' in request.files else []
+        images = save_product_images(files, product_id)[:MAX_IMAGES_PER_PRODUCT]
 
-        sizes_raw = request.form.get('sizes', '')
-        sizes = [s.strip() for s in sizes_raw.split(',') if s.strip()]
-
+        sizes_raw    = request.form.get('sizes', '')
+        sizes        = [s.strip() for s in sizes_raw.split(',') if s.strip()]
         features_raw = request.form.get('features', '')
-        features = [f.strip() for f in features_raw.split(chr(10)) if f.strip()]
+        features     = [f.strip() for f in features_raw.split(chr(10)) if f.strip()]
 
         products[product_id] = {
             "id": product_id,
             "name": name,
-            "tagline": request.form.get('tagline', '').strip(),
-            "price": request.form.get('price', '').strip(),
+            "tagline":     request.form.get('tagline', '').strip(),
+            "price":       request.form.get('price', '').strip(),
             "price_range": request.form.get('price_range', '').strip(),
-            "category": request.form.get('category', '').strip(),
-            "sizes": sizes,
-            "material": request.form.get('material', '').strip(),
-            "finish": request.form.get('finish', '').strip(),
-            "headboard": request.form.get('headboard', '').strip(),
-            "warranty": request.form.get('warranty', '').strip(),
+            "category":    request.form.get('category', '').strip(),
+            "sizes":       sizes,
+            "material":    request.form.get('material', '').strip(),
+            "finish":      request.form.get('finish', '').strip(),
+            "headboard":   request.form.get('headboard', '').strip(),
+            "warranty":    request.form.get('warranty', '').strip(),
             "description": request.form.get('description', '').strip(),
-            "features": features,
-            "color": request.form.get('color', '#8B4513').strip(),
-            "image": image_filename
+            "features":    features,
+            "color":       request.form.get('color', '#8B4513').strip(),
+            "image":       images[0] if images else '',
+            "images":      images
         }
         save_products(products)
         flash(f'Product "{name}" added successfully.', 'success')
@@ -306,40 +472,42 @@ def admin_edit_product(product_id):
             flash('Product name is required.', 'error')
             return redirect(url_for('admin_edit_product', product_id=product_id))
 
-        image_filename = p.get('image', '')
-        if 'image' in request.files:
-            file = request.files['image']
-            if file and file.filename and allowed_file(file.filename):
-                if image_filename:
-                    old_path = os.path.join(UPLOAD_FOLDER, image_filename)
-                    if os.path.exists(old_path):
-                        os.remove(old_path)
-                ext = file.filename.rsplit('.', 1)[1].lower()
-                image_filename = f"{product_id}.{ext}"
-                file.save(os.path.join(UPLOAD_FOLDER, image_filename))
+        existing_images = list(p.get('images', []))
 
-        sizes_raw = request.form.get('sizes', '')
-        sizes = [s.strip() for s in sizes_raw.split(',') if s.strip()]
+        # Remove any images the admin checked for deletion
+        remove_list = request.form.getlist('remove_images')
+        for filename in remove_list:
+            if filename in existing_images:
+                delete_product_image(filename)
+                existing_images.remove(filename)
 
+        # Add newly uploaded images
+        files = request.files.getlist('images') if 'images' in request.files else []
+        new_images = save_product_images(files, product_id)
+        all_images = (existing_images + new_images)[:MAX_IMAGES_PER_PRODUCT]
+
+        sizes_raw    = request.form.get('sizes', '')
+        sizes        = [s.strip() for s in sizes_raw.split(',') if s.strip()]
         features_raw = request.form.get('features', '')
-        features = [f.strip() for f in features_raw.split(chr(10)) if f.strip()]
+        features     = [f.strip() for f in features_raw.split(chr(10)) if f.strip()]
 
         products[product_id] = {
             "id": product_id,
             "name": name,
-            "tagline": request.form.get('tagline', '').strip(),
-            "price": request.form.get('price', '').strip(),
+            "tagline":     request.form.get('tagline', '').strip(),
+            "price":       request.form.get('price', '').strip(),
             "price_range": request.form.get('price_range', '').strip(),
-            "category": request.form.get('category', '').strip(),
-            "sizes": sizes,
-            "material": request.form.get('material', '').strip(),
-            "finish": request.form.get('finish', '').strip(),
-            "headboard": request.form.get('headboard', '').strip(),
-            "warranty": request.form.get('warranty', '').strip(),
+            "category":    request.form.get('category', '').strip(),
+            "sizes":       sizes,
+            "material":    request.form.get('material', '').strip(),
+            "finish":      request.form.get('finish', '').strip(),
+            "headboard":   request.form.get('headboard', '').strip(),
+            "warranty":    request.form.get('warranty', '').strip(),
             "description": request.form.get('description', '').strip(),
-            "features": features,
-            "color": request.form.get('color', '#8B4513').strip(),
-            "image": image_filename
+            "features":    features,
+            "color":       request.form.get('color', '#8B4513').strip(),
+            "image":       all_images[0] if all_images else '',
+            "images":      all_images
         }
         save_products(products)
         flash(f'Product "{name}" updated successfully.', 'success')
@@ -353,43 +521,137 @@ def admin_delete_product(product_id):
     products = load_products()
     p = products.pop(product_id, None)
     if p:
-        img = p.get('image', '')
-        if img:
-            img_path = os.path.join(UPLOAD_FOLDER, img)
-            if os.path.exists(img_path):
-                os.remove(img_path)
+        for img in p.get('images', []):
+            delete_product_image(img)
         save_products(products)
         flash('Product deleted successfully.', 'success')
     else:
         flash('Product not found.', 'error')
     return redirect(url_for('admin_dashboard'))
 
+# ── Admin — Content ───────────────────────────────────────────────────────────
+@app.route('/admin/content', methods=['GET', 'POST'])
+@admin_required
+def admin_content():
+    content = load_content()
+    if request.method == 'POST':
+        content['hero']['eyebrow']        = request.form.get('hero_eyebrow', '').strip()
+        content['hero']['title_line1']    = request.form.get('hero_title_line1', '').strip()
+        content['hero']['title_emphasis'] = request.form.get('hero_title_emphasis', '').strip()
+        content['hero']['tagline']        = request.form.get('hero_tagline', '').strip()
 
-@app.route('/privacy')
-def privacy():
-    return render_template('privacy.html')
+        content['contact']['phone_display']    = request.form.get('phone_display', '').strip()
+        content['contact']['phone_link']       = request.form.get('phone_link', '').strip()
+        content['contact']['email']            = request.form.get('email', '').strip()
+        content['contact']['address']          = request.form.get('address', '').strip()
+        content['contact']['hours']            = request.form.get('hours', '').strip()
+        content['contact']['whatsapp_number']  = request.form.get('whatsapp_number', '').strip()
 
-@app.route('/terms')
-def terms():
-    return render_template('terms.html')
+        content['footer']['brand_desc']  = request.form.get('brand_desc', '').strip()
+        content['footer']['copyright']   = request.form.get('copyright', '').strip()
+        content['footer']['tagline']     = request.form.get('footer_tagline', '').strip()
+        content['footer']['instagram']   = request.form.get('instagram', '').strip()
+        content['footer']['facebook']    = request.form.get('facebook', '').strip()
 
-@app.route('/newsletter', methods=['POST'])
-def newsletter():
-    email = request.form.get('email', '').strip()
-    if email:
-        # Save newsletter signup
-        newsletter_file = os.path.join(BASE_DIR, 'newsletter.json')
-        subscribers = []
-        if os.path.exists(newsletter_file):
-            with open(newsletter_file, 'r', encoding='utf-8') as f:
-                subscribers = json.load(f)
-        subscribers.append({'email': email, 'date': str(datetime.now())})
-        with open(newsletter_file, 'w', encoding='utf-8') as f:
-            json.dump(subscribers, f, indent=2, ensure_ascii=False)
-        flash('Thank you for subscribing! You will receive our latest updates.', 'success')
-    else:
-        flash('Please enter a valid email address.', 'error')
-    return redirect(url_for('home'))
+        content['about']['eyebrow']             = request.form.get('about_eyebrow', '').strip()
+        content['about']['tagline']             = request.form.get('about_tagline', '').strip()
+        content['about']['story_heading_line1'] = request.form.get('story_heading_line1', '').strip()
+        content['about']['story_heading_line2'] = request.form.get('story_heading_line2', '').strip()
+        content['about']['story_para1']         = request.form.get('story_para1', '').strip()
+        content['about']['story_para2']         = request.form.get('story_para2', '').strip()
+        content['about']['story_para3']         = request.form.get('story_para3', '').strip()
+        content['about']['stat1_number']        = request.form.get('stat1_number', '').strip()
+        content['about']['stat1_label']         = request.form.get('stat1_label', '').strip()
+        content['about']['stat2_number']        = request.form.get('stat2_number', '').strip()
+        content['about']['stat2_label']         = request.form.get('stat2_label', '').strip()
+        content['about']['stat3_number']        = request.form.get('stat3_number', '').strip()
+        content['about']['stat3_label']         = request.form.get('stat3_label', '').strip()
+        content['about']['stat4_number']        = request.form.get('stat4_number', '').strip()
+        content['about']['stat4_label']         = request.form.get('stat4_label', '').strip()
+        content['about']['quote_text']          = request.form.get('quote_text', '').strip()
+        content['about']['quote_author']        = request.form.get('quote_author', '').strip()
 
+        save_content(content)
+        flash('Site content updated successfully.', 'success')
+        return redirect(url_for('admin_content'))
+
+    return render_template('admin/content.html', content=content)
+
+# ── Admin — Gallery ───────────────────────────────────────────────────────────
+@app.route('/admin/gallery')
+@admin_required
+def admin_gallery():
+    gallery = load_gallery()
+    return render_template('admin/gallery.html', gallery=gallery)
+
+@app.route('/admin/gallery/add', methods=['POST'])
+@admin_required
+def admin_gallery_add():
+    gallery = load_gallery()
+    caption = request.form.get('caption', '').strip()
+
+    if 'photo' not in request.files:
+        flash('No file selected.', 'error')
+        return redirect(url_for('admin_gallery'))
+
+    file = request.files['photo']
+    if not file or not file.filename or not allowed_file(file.filename):
+        flash('Invalid file type. Use jpg, png, webp.', 'error')
+        return redirect(url_for('admin_gallery'))
+
+    ext      = file.filename.rsplit('.', 1)[1].lower()
+    filename = f"gallery_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.{ext}"
+    file.save(os.path.join(GALLERY_FOLDER, filename))
+
+    gallery.append({
+        'id':       filename,
+        'filename': filename,
+        'caption':  caption,
+        'uploaded': str(datetime.now())
+    })
+    save_gallery(gallery)
+    flash('Photo added to workshop gallery.', 'success')
+    return redirect(url_for('admin_gallery'))
+
+@app.route('/admin/gallery/delete/<filename>', methods=['POST'])
+@admin_required
+def admin_gallery_delete(filename):
+    gallery = load_gallery()
+    gallery = [g for g in gallery if g['filename'] != filename]
+    save_gallery(gallery)
+    path = os.path.join(GALLERY_FOLDER, filename)
+    if os.path.exists(path):
+        os.remove(path)
+    flash('Photo removed from gallery.', 'success')
+    return redirect(url_for('admin_gallery'))
+
+# ── Admin — Settings (background image) ──────────────────────────────────────
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@admin_required
+def admin_settings():
+    settings = load_settings()
+
+    if request.method == 'POST':
+        if 'bg_image' in request.files:
+            file = request.files['bg_image']
+            if file and file.filename and allowed_file(file.filename):
+                old = settings.get('bg_image', '')
+                if old:
+                    old_path = os.path.join(BG_FOLDER, old)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                ext      = file.filename.rsplit('.', 1)[1].lower()
+                filename = f"bg_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{ext}"
+                file.save(os.path.join(BG_FOLDER, filename))
+                settings['bg_image'] = filename
+                save_settings(settings)
+                flash('Background image updated successfully.', 'success')
+            else:
+                flash('Invalid file. Use jpg, png, webp.', 'error')
+        return redirect(url_for('admin_settings'))
+
+    return render_template('admin/settings.html', settings=settings)
+
+# ── Run ───────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     app.run(debug=True)

@@ -2,38 +2,37 @@
   "royal-heritage": {
     "id": "royal-heritage",
     "name": "Royal Heritage Bed",
-    "tagline": "Where centuries of craft meet modern luxury",
-    "price": "Rs. 185,000",
-    "price_range": "Rs. 185,000 - Rs. 320,000",
-    "category": "Frame Bed",
+    "tagline": "A Masterpiece of Hand-Carved Royalty & Smart Storage.",
+    "price": "£280",
+    "price_range": "£260-450",
+    "category": "Ottoman bed",
     "sizes": [
       "Single",
       "Double",
       "Queen",
-      "King"
+      "King",
+      "Super"
     ],
     "material": "Solid Sheesham Wood",
-    "finish": "Dark Walnut Polish",
-    "headboard": "Ornate carved headboard with gold inlay",
-    "warranty": "10 Years",
-    "description": "The Royal Heritage is our crown jewel - a masterpiece of Sheesham wood, hand-carved by artisans with decades of experience. Every joint, every curve, every detail speaks of uncompromising quality. This is not just a bed; it is an heirloom.",
+    "finish": "Dark Walnut Polish with Gold Detailing",
+    "headboard": "Ornate hand-carved headboard featuring exquisite 24-carat gold leaf detailing.",
+    "warranty": "10 years",
+    "description": "The Royal Heritage Bed is our crown jewel—a masterpiece of solid Sheesham wood hand-carved by master artisans. Combining timeless regal elegance with modern utility, this ottoman storage bed features traditional mortise and tenon joinery for uncompromising structural durability. It is not just a bed; it is an heirloom built to last for generations.",
     "features": [
-      "Hand-carved solid Sheesham wood",
-      "24-carat gold leaf detailing",
-      "Mortise & tenon joinery - no screws",
-      "Storage drawers with soft-close mechanism",
-      "Orthopedic slat system included",
-      "Custom size available on order"
+      "Heavy-duty steel mattress support frame"
     ],
     "color": "#8B4513",
-    "image": ""
+    "image": "royal-heritage.png",
+    "images": [
+      "royal-heritage.png"
+    ]
   },
   "obsidian-sultan": {
     "id": "obsidian-sultan",
     "name": "Obsidian Sultan Bed",
     "tagline": "Dark majesty. Silent power.",
-    "price": "Rs. 210,000",
-    "price_range": "Rs. 210,000 - Rs. 380,000",
+    "price": "£280",
+    "price_range": "£260-440",
     "category": "Ottoman Bed",
     "sizes": [
       "Double",
@@ -55,14 +54,17 @@
       "Fits standard and custom mattresses"
     ],
     "color": "#1a1a2e",
-    "image": ""
+    "image": "obsidian-sultan.png",
+    "images": [
+      "obsidian-sultan.png"
+    ]
   },
   "ivory-empress": {
     "id": "ivory-empress",
     "name": "Ivory Empress Bed",
     "tagline": "Elegance carved in light and wood",
-    "price": "Rs. 155,000",
-    "price_range": "Rs. 155,000 - Rs. 260,000",
+    "price": "£175",
+    "price_range": "£180-250",
     "category": "Divan Bed Set",
     "sizes": [
       "Single",
@@ -84,14 +86,17 @@
       "Modular - splits for easy moving"
     ],
     "color": "#c8a96e",
-    "image": ""
+    "image": "ivory-empress.png",
+    "images": [
+      "ivory-empress.png"
+    ]
   },
   "cedar-throne": {
     "id": "cedar-throne",
-    "name": "Cedar Throne Bed",
-    "tagline": "Built for those who refuse to settle",
-    "price": "Rs. 240,000",
-    "price_range": "Rs. 240,000 - Rs. 420,000",
+    "name": "The Aurelia Tufted Velvet Chesterfield Bed",
+    "tagline": "\"Where old-world opulence meets modern dreamscapes.\"",
+    "price": "£280",
+    "price_range": "£220-340",
     "category": "Luxury Frame Bed",
     "sizes": [
       "Queen",
@@ -99,10 +104,10 @@
       "Super King"
     ],
     "material": "Himalayan Cedar Wood",
-    "finish": "Natural Cedar with Teak Oil",
-    "headboard": "Cathedral arch headboard - full height",
-    "warranty": "15 Years",
-    "description": "The Cedar Throne is our most prestigious creation. Crafted from rare Himalayan cedar - a wood prized for its natural fragrance, insect resistance, and incredible grain - this bed is built to outlast generations. The cathedral arch headboard stands nearly two metres tall.",
+    "finish": "Premium High-Sheen Crushed Velvet",
+    "headboard": "The headboard is a masterclass in texture and scale. It features an extra-tall, towering silhouette adorned with deep, diamond-patterned button tufting that adds incredible depth and visual drama. Framing the tufting are elegant, softly structured wingback sides detailed with a delicate, shimmering nailhead trim. This architectural backdrop not only provides magnificent lower-back support for sitting up in bed but also establishes an undeniable sense of regal comfort and privacy.",
+    "warranty": "10 years",
+    "description": "Inspired by the timeless elegance of classic estate furniture, the Aurelia Bed (as shown in Gemini_Generated_Image_8stfcs8stfcs8stf.png) transforms any bedroom into a luxurious sanctuary. Draped in high-sheen, crushed velvet that catches the light beautifully, this bed features dramatic, deep button-tufting across both the commanding headboard and the matching high-profile footboard. Designed for those who appreciate high-glamour interiors, it balances a bold silhouette with soft, touchable comfort, making it the undeniable centerpiece of the master suite.",
     "features": [
       "Rare Himalayan cedar - naturally fragrant",
       "Cathedral arch headboard (190cm tall)",
@@ -112,6 +117,91 @@
       "Bespoke engraving available"
     ],
     "color": "#6B3A2A",
-    "image": ""
+    "image": "cedar-throne.png",
+    "images": [
+      "cedar-throne.png"
+    ]
+  },
+  "deep-tufted-velvet-wingback-bed-frame": {
+    "id": "deep-tufted-velvet-wingback-bed-frame",
+    "name": "Deep Tufted Velvet Wingback Bed Frame",
+    "tagline": "\"Sleep in Royalty: The Ultimate Statement of Elegance and Comfort.\"",
+    "price": "£240",
+    "price_range": "£240-£360",
+    "category": "Frame bed",
+    "sizes": [
+      "Single",
+      "Double",
+      "Queen",
+      "King"
+    ],
+    "material": "Premium Sky Blue Velvet Fabric Upholstery with a soft-touch plush finish.",
+    "finish": "",
+    "headboard": "The bed frame features a magnificent, extra-tall floor-standing Wingback Headboard. It is intricately crafted with classic deep button tufting (Chesterfield style) that creates a luxurious, multi-dimensional texture. The elegant side wings wrap slightly forward, offering a cozy, cocoon-like shelter effect while framing your pillows beautifully.",
+    "warranty": "10 years",
+    "description": "Transform your bedroom into a high-end luxury retreat with the Windsor Wingback Bed. Upholstered in an exquisite, velvety plush fabric, this bed frame brings both sophisticated drama and inviting comfort to any contemporary or classic UK home. The standout sky blue hue delivers a refreshing pop of colour, making it the undeniable centerpiece of the room. Built with a robust, heavy-duty wooden frame and supportive slatted base, it guarantees both lasting durability and excellent mattress support for a perfect night’s sleep.",
+    "features": [
+      "Deep-buttoned diamond tufting on both the headboard and footboard provides a timeless, regal aesthetic."
+    ],
+    "color": "#709FD3",
+    "image": "deep-tufted-velvet-wingback-bed-frame.png",
+    "images": [
+      "deep-tufted-velvet-wingback-bed-frame.png"
+    ]
+  },
+  "sapphire-royal-velvet-wingback-bed": {
+    "id": "sapphire-royal-velvet-wingback-bed",
+    "name": "Sapphire Royal Velvet Wingback Bed",
+    "tagline": "Regal elegance meets plush, deep-tufted comfort.",
+    "price": "£175",
+    "price_range": "£180-250",
+    "category": "Frame bed",
+    "sizes": [
+      "Single",
+      "Double",
+      "Queen",
+      "King"
+    ],
+    "material": "Solid Hardwood Frame, High-Density Foam, Premium Velvet Fabric",
+    "finish": "Royal Blue Velvet Upholstery with Chrome Base Accents",
+    "headboard": "An extra-tall, deeply cushioned Chesterfield-style button-tufted headboard, gracefully flanked by protective wingback sides detailed with precision metallic nailhead trim.",
+    "warranty": "10 years",
+    "description": "Transform your bedroom into a luxurious sanctuary with this striking statement piece. Fully wrapped in an ultra-soft, dense royal blue velvet, this premium frame bed features an iconic tufted wingback silhouette that provides a comfortable backrest for sitting up in bed. Built upon a robust kiln-dried wood frame, it provides long-lasting structural durability while maintaining an ultra-sleek, low-profile modern aesthetic.",
+    "features": [
+      "Heavy-duty solid wood internal construction for premium stability"
+    ],
+    "color": "#002366",
+    "image": "sapphire-royal-velvet-wingback-bed.png",
+    "images": [
+      "sapphire-royal-velvet-wingback-bed.png"
+    ]
+  },
+  "the-obsidian-nocturne-tufted-bed": {
+    "id": "the-obsidian-nocturne-tufted-bed",
+    "name": "The Obsidian Nocturne Tufted Bed",
+    "tagline": "Where dramatic elegance meets midnight comfort.",
+    "price": "£240",
+    "price_range": "£240-£360",
+    "category": "Frame bed",
+    "sizes": [
+      "Single",
+      "Double",
+      "Queen",
+      "King"
+    ],
+    "material": "Crafted from a solid hardwood core with deep-tufted charcoal performance velvet and intricately carved espresso oak veneers.",
+    "finish": "Charcoal Black Velvet upholstery paired with a Dark Espresso / Espresso Oak wood finish.",
+    "headboard": "",
+    "warranty": "8 Years",
+    "description": "Anchored by bold textures and sophisticated dark tones, the Obsidian Nocturne Bed redefines modern luxury. It features an imposing, extra-tall headboard beautifully detailed with deep diamond button tufting that commands attention in any master suite. The bed's low-profile base balances this grand height, showcasing an intricately carved geometric lattice pattern on the footboard that adds a subtle touch of artisanal craftsmanship to a sleek, contemporary silhouette.",
+    "features": [
+      "A heavy-duty wooden slat system eliminates the need for a traditional box spring, maintaining a clean, low-profile look."
+    ],
+    "color": "#8B4513",
+    "image": "the-obsidian-nocturne-tufted-bed-20260707061655095940-0.jpg",
+    "images": [
+      "the-obsidian-nocturne-tufted-bed-20260707061655095940-0.jpg",
+      "the-obsidian-nocturne-tufted-bed-20260707061655095940-1.png"
+    ]
   }
 }

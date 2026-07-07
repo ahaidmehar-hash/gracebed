@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Workshop Gallery — Admin{% endblock %}
+{% block extra_css %}
+<style>
+  .admin-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 3%; background:var(--bg-card); border-bottom:1px solid var(--border); margin-bottom:2rem; }
+  .admin-nav-brand { font-family:var(--font-serif); font-size:1.2rem; color:var(--white); }
+  .admin-nav-brand span { color:var(--gold); }
+  .admin-nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .admin-nav-links a { color:var(--cream-dim); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:0.3s; }
+  .admin-nav-links a:hover { color:var(--gold); }
+  .admin-container { max-width:1200px; margin:0 auto; padding:0 3% 3rem; }
+  .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+  .admin-header h1 { font-family:var(--font-serif); font-size:1.8rem; font-weight:300; color:var(--white); }
+  .admin-btn { padding:0.5rem 1rem; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none; border-radius:2px; transition:0.3s; cursor:pointer; border:none; font-family:var(--font-sans); display:inline-block; }
+  .admin-btn-primary { background:var(--gold); color:var(--bg-deep); }
+  .admin-btn-primary:hover { background:var(--gold-bright); }
+  .admin-btn-danger { border:1px solid rgba(180,80,80,0.4); color:#b45050; background:transparent; }
+  .admin-btn-danger:hover { background:rgba(180,80,80,0.1); border-color:#b45050; }
+  .admin-btn-outline { border:1px solid var(--border-light); color:var(--cream-dim); background:transparent; }
+  .admin-btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+  .flash-messages { margin-bottom:1.5rem; }
+  .flash-message { padding:0.8rem 1rem; font-size:0.8rem; border-radius:2px; margin-bottom:0.5rem; }
+  .flash-success { background:rgba(80,160,100,0.1); border:1px solid rgba(80,160,100,0.3); color:#50a064; }
+  .flash-error { background:rgba(180,80,80,0.1); border:1px solid rgba(180,80,80,0.3); color:#b45050; }
+
+  /* Upload box */
+  .upload-box { background:var(--bg-card); border:1px solid var(--border); border-radius:4px; padding:2rem; margin-bottom:2rem; }
+  .upload-box h2 { font-family:var(--font-serif); font-size:1.1rem; font-weight:300; color:var(--white); margin-bottom:1.5rem; }
+  .upload-row { display:flex; gap:1rem; align-items:flex-end; flex-wrap:wrap; }
+  .upload-field { display:flex; flex-direction:column; gap:0.4rem; }
+  .upload-field label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-dim); }
+  .upload-field input[type="text"] { background:var(--bg-elevated); border:1px solid var(--border); color:var(--white); padding:0.6rem 0.8rem; font-size:0.85rem; border-radius:2px; width:280px; font-family:var(--font-sans); }
+  .upload-field input[type="file"] { font-size:0.8rem; color:var(--cream-dim); }
+
+  /* Gallery grid */
+  .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:1rem; }
+  .gallery-card { background:var(--bg-card); border:1px solid var(--border); border-radius:4px; overflow:hidden; }
+  .gallery-card img { width:100%; height:180px; object-fit:cover; display:block; }
+  .gallery-card-body { padding:0.8rem; display:flex; justify-content:space-between; align-items:center; gap:0.5rem; }
+  .gallery-card-caption { font-size:0.75rem; color:var(--cream-dim); flex:1; font-style:italic; }
+  .gallery-empty { text-align:center; padding:3rem; color:var(--cream-dim); font-size:0.85rem; border:1px dashed var(--border); border-radius:4px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-nav">
+  <a href="/" class="admin-nav-brand">Grace <span>Bed</span></a>
+  <div class="admin-nav-links">
+    <a href="/admin">Products</a>
+    <a href="/admin/gallery" style="color:var(--gold);">Gallery</a>
+    <a href="/admin/settings">Settings</a>
+    <a href="/">View Site</a>
+    <a href="/admin/logout">Logout</a>
+  </div>
+</div>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Workshop Gallery</h1>
+    <a href="/workshop" target="_blank" class="admin-btn admin-btn-outline">View on Site →</a>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash-message flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Upload form -->
+  <div class="upload-box">
+    <h2>Add New Photo</h2>
+    <form method="post" action="/admin/gallery/add" enctype="multipart/form-data">
+      <div class="upload-row">
+        <div class="upload-field">
+          <label>Photo (jpg, png, webp)</label>
+          <input type="file" name="photo" accept="image/*" required>
+        </div>
+        <div class="upload-field">
+          <label>Caption (optional)</label>
+          <input type="text" name="caption" placeholder="e.g. Hand-stitching the headboard fabric">
+        </div>
+        <button type="submit" class="admin-btn admin-btn-primary">Upload Photo</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Gallery grid -->
+  {% if gallery %}
+  <div class="gallery-grid">
+    {% for item in gallery %}
+    <div class="gallery-card">
+      <img src="{{ url_for('static', filename='images/gallery/' + item.filename) }}" alt="{{ item.caption }}">
+      <div class="gallery-card-body">
+        <span class="gallery-card-caption">{{ item.caption or 'No caption' }}</span>
+        <form method="post" action="/admin/gallery/delete/{{ item.filename }}" onsubmit="return confirm('Remove this photo?');">
+          <button type="submit" class="admin-btn admin-btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="gallery-empty">No photos yet. Upload your first workshop photo above.</div>
+  {% endif %}
+</div>
+{% endblock %}

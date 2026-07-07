@@ -8,6 +8,7 @@
   .admin-nav-links { display:flex; gap:1.5rem; align-items:center; }
   .admin-nav-links a { color:var(--cream-dim); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:0.3s; }
   .admin-nav-links a:hover { color:var(--gold); }
+  .admin-nav-links a.active { color:var(--gold); }
   .admin-container { max-width:1200px; margin:0 auto; padding:0 3% 3rem; }
   .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
   .admin-header h1 { font-family:var(--font-serif); font-size:1.8rem; font-weight:300; color:var(--white); }
@@ -29,6 +30,15 @@
   .flash-message { padding:0.8rem 1rem; font-size:0.8rem; border-radius:2px; margin-bottom:0.5rem; }
   .flash-success { background:rgba(80,160,100,0.1); border:1px solid rgba(80,160,100,0.3); color:#50a064; }
   .flash-error { background:rgba(180,80,80,0.1); border:1px solid rgba(180,80,80,0.3); color:#b45050; }
+
+  /* Quick stats */
+  .stats-row { display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+  .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:4px; padding:1.2rem 1.5rem; flex:1; min-width:160px; }
+  .stat-card .stat-num { font-family:var(--font-serif); font-size:2rem; font-weight:300; color:var(--white); }
+  .stat-card .stat-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-dim); margin-top:0.2rem; }
+  .stat-card .stat-link { font-size:0.7rem; color:var(--gold); text-decoration:none; display:inline-block; margin-top:0.6rem; }
+  .stat-card .stat-link:hover { text-decoration:underline; }
+
   @media (max-width:768px) { .admin-table-wrap { overflow-x:auto; } .admin-table { min-width:700px; } }
 </style>
 {% endblock %}
@@ -37,14 +47,19 @@
 <div class="admin-nav">
   <a href="/" class="admin-nav-brand">Grace <span>Bed</span></a>
   <div class="admin-nav-links">
-    <a href="/">View Site</a>
+    <a href="/admin" class="active">Products</a>
+    <a href="/admin/gallery">Gallery</a>
+    <a href="/admin/settings">Settings</a>
+    <a href="/workshop" target="_blank">Workshop Page</a>
+    <a href="/" target="_blank">View Site</a>
     <a href="/admin/logout">Logout</a>
   </div>
 </div>
 
 <div class="admin-container">
+
   <div class="admin-header">
-    <h1>Products</h1>
+    <h1>Dashboard</h1>
     <a href="/admin/product/add" class="admin-btn admin-btn-primary">+ Add Product</a>
   </div>
 
@@ -58,6 +73,31 @@
     {% endif %}
   {% endwith %}
 
+  <!-- Quick stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">{{ products | length }}</div>
+      <div class="stat-label">Total Products</div>
+      <a href="/admin/product/add" class="stat-link">+ Add new →</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">🖼</div>
+      <div class="stat-label">Workshop Gallery</div>
+      <a href="/admin/gallery" class="stat-link">Manage photos →</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">⚙</div>
+      <div class="stat-label">Site Settings</div>
+      <a href="/admin/settings" class="stat-link">Background image →</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">🌐</div>
+      <div class="stat-label">Live Site</div>
+      <a href="/" target="_blank" class="stat-link">Open site →</a>
+    </div>
+  </div>
+
+  <!-- Products table -->
   <div class="admin-table-wrap">
     <table class="admin-table">
       <thead>
@@ -65,7 +105,7 @@
           <th>Image</th>
           <th>Name</th>
           <th>Category</th>
-          <th>Price</th>
+          <th>Price Range</th>
           <th style="text-align:right;">Actions</th>
         </tr>
       </thead>
@@ -79,11 +119,15 @@
             <div class="product-thumb-placeholder" style="background: linear-gradient(135deg, {{ p.color }}33 0%, {{ p.color }}11 100%);">{{ p.name[0] }}</div>
             {% endif %}
           </td>
-          <td><strong>{{ p.name }}</strong><br><small style="color:var(--cream-dim);font-size:0.7rem;">{{ p.id }}</small></td>
+          <td>
+            <strong>{{ p.name }}</strong><br>
+            <small style="color:var(--cream-dim);font-size:0.7rem;">{{ p.id }}</small>
+          </td>
           <td>{{ p.category }}</td>
           <td>{{ p.price_range }}</td>
           <td style="text-align:right;">
-            <a href="/admin/product/edit/{{ p.id }}" class="admin-btn admin-btn-outline" style="margin-right:0.5rem;">Edit</a>
+            <a href="/product/{{ p.id }}" target="_blank" class="admin-btn admin-btn-outline" style="margin-right:0.3rem;">View</a>
+            <a href="/admin/product/edit/{{ p.id }}" class="admin-btn admin-btn-outline" style="margin-right:0.3rem;">Edit</a>
             <form method="post" action="/admin/product/delete/{{ p.id }}" style="display:inline;" onsubmit="return confirm('Delete this product? This cannot be undone.');">
               <button type="submit" class="admin-btn admin-btn-danger">Delete</button>
             </form>
@@ -93,6 +137,6 @@
       </tbody>
     </table>
   </div>
-</div>
 
+</div>
 {% endblock %}

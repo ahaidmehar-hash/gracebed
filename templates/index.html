@@ -8,9 +8,9 @@
   <div class="hero-overlay"></div>
   <div class="hero-grain"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Luxury Wooden Beds · Glasgow · Est. 2015</p>
-    <h1 class="hero-title">Where Wood<br>Becomes <em>Legacy</em></h1>
-    <p class="hero-tagline">Heirloom-quality beds, handcrafted from the finest woods.<br>Designed to outlast generations.</p>
+    <p class="hero-eyebrow">{{ content.hero.eyebrow }}</p>
+    <h1 class="hero-title">{{ content.hero.title_line1 }}<br>Becomes <em>{{ content.hero.title_emphasis }}</em></h1>
+    <p class="hero-tagline">{{ content.hero.tagline|safe }}</p>
     <div class="hero-actions">
       <a href="/collection" class="btn-primary">Explore Collection</a>
       <a href="/about" class="btn-outline">Our Craft</a>

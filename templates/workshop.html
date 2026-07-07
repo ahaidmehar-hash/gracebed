@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Our Workshop — Grace Bed{% endblock %}
+{% block extra_css %}
+<style>
+  .workshop-hero {
+    padding: 8rem 5% 5rem;
+    text-align: center;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-card) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .workshop-hero .label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--gold-dim); margin-bottom: 1rem;
+  }
+  .workshop-hero h1 {
+    font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300; color: var(--white); margin-bottom: 1.2rem;
+    line-height: 1.15;
+  }
+  .workshop-hero h1 em { font-style: italic; color: var(--gold); }
+  .workshop-hero p {
+    font-size: 1rem; color: var(--cream-dim); max-width: 600px;
+    margin: 0 auto; line-height: 1.8;
+  }
+
+  .workshop-section { padding: 5rem 5%; max-width: 1300px; margin: 0 auto; }
+
+  .gallery-masonry {
+    columns: 3; column-gap: 1rem;
+  }
+  @media (max-width: 900px) { .gallery-masonry { columns: 2; } }
+  @media (max-width: 580px) { .gallery-masonry { columns: 1; } }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .gallery-item img {
+    width: 100%; display: block;
+    transition: transform 0.5s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.03); }
+  .gallery-item-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.5rem 1rem 0.8rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    font-size: 0.75rem; color: rgba(255,255,255,0.8);
+    font-style: italic; opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-item:hover .gallery-item-caption { opacity: 1; }
+
+  .empty-gallery {
+    text-align: center; padding: 5rem 2rem;
+    color: var(--cream-dim); font-size: 0.9rem;
+    border: 1px dashed var(--border); border-radius: 4px;
+  }
+  .empty-gallery p { margin-bottom: 0.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="workshop-hero">
+  <div class="label">Behind the craft</div>
+  <h1>Where Every Bed<br><em>Begins</em></h1>
+  <p>Step inside our Glasgow workshop — where raw timber becomes furniture built to outlast generations. Every joint, every stitch, every finish, done by hand.</p>
+</section>
+
+<!-- Gallery -->
+<section class="workshop-section">
+  {% if gallery %}
+  <div class="gallery-masonry">
+    {% for item in gallery %}
+    <div class="gallery-item">
+      <img src="{{ url_for('static', filename='images/gallery/' + item.filename) }}" alt="{{ item.caption or 'Workshop photo' }}" loading="lazy">
+      {% if item.caption %}
+      <div class="gallery-item-caption">{{ item.caption }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-gallery">
+    <p>Workshop photos coming soon.</p>
+    <p style="font-size:0.75rem; opacity:0.6;">Check back to see our craftsmen at work.</p>
+  </div>
+  {% endif %}
+</section>
+
+{% endblock %}

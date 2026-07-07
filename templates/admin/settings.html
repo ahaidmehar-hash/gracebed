@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Site Settings — Admin{% endblock %}
+{% block extra_css %}
+<style>
+  .admin-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 3%; background:var(--bg-card); border-bottom:1px solid var(--border); margin-bottom:2rem; }
+  .admin-nav-brand { font-family:var(--font-serif); font-size:1.2rem; color:var(--white); }
+  .admin-nav-brand span { color:var(--gold); }
+  .admin-nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .admin-nav-links a { color:var(--cream-dim); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:0.3s; }
+  .admin-nav-links a:hover { color:var(--gold); }
+  .admin-container { max-width:800px; margin:0 auto; padding:0 3% 3rem; }
+  .admin-header { margin-bottom:2rem; }
+  .admin-header h1 { font-family:var(--font-serif); font-size:1.8rem; font-weight:300; color:var(--white); }
+  .admin-btn { padding:0.5rem 1rem; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none; border-radius:2px; transition:0.3s; cursor:pointer; border:none; font-family:var(--font-sans); display:inline-block; }
+  .admin-btn-primary { background:var(--gold); color:var(--bg-deep); }
+  .admin-btn-primary:hover { background:var(--gold-bright); }
+  .flash-messages { margin-bottom:1.5rem; }
+  .flash-message { padding:0.8rem 1rem; font-size:0.8rem; border-radius:2px; margin-bottom:0.5rem; }
+  .flash-success { background:rgba(80,160,100,0.1); border:1px solid rgba(80,160,100,0.3); color:#50a064; }
+  .flash-error { background:rgba(180,80,80,0.1); border:1px solid rgba(180,80,80,0.3); color:#b45050; }
+
+  .settings-card { background:var(--bg-card); border:1px solid var(--border); border-radius:4px; padding:2rem; margin-bottom:1.5rem; }
+  .settings-card h2 { font-family:var(--font-serif); font-size:1.1rem; font-weight:300; color:var(--white); margin-bottom:0.5rem; }
+  .settings-card p { font-size:0.8rem; color:var(--cream-dim); margin-bottom:1.5rem; }
+  .current-bg { width:100%; max-height:200px; object-fit:cover; border-radius:3px; border:1px solid var(--border); margin-bottom:1rem; display:block; }
+  .no-bg { background:var(--bg-elevated); border:1px dashed var(--border); border-radius:3px; padding:2rem; text-align:center; color:var(--cream-dim); font-size:0.8rem; margin-bottom:1rem; }
+  .upload-row { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+  .upload-field label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold-dim); display:block; margin-bottom:0.4rem; }
+  .upload-field input[type="file"] { font-size:0.8rem; color:var(--cream-dim); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-nav">
+  <a href="/" class="admin-nav-brand">Grace <span>Bed</span></a>
+  <div class="admin-nav-links">
+    <a href="/admin">Products</a>
+    <a href="/admin/gallery">Gallery</a>
+    <a href="/admin/settings" style="color:var(--gold);">Settings</a>
+    <a href="/">View Site</a>
+    <a href="/admin/logout">Logout</a>
+  </div>
+</div>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Site Settings</h1>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+      <div class="flash-message flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Background Image -->
+  <div class="settings-card">
+    <h2>Homepage Background Image</h2>
+    <p>This image appears as the hero background on your homepage. Recommended: dark, high-resolution photo (1920×1080 or larger).</p>
+
+    {% if settings.bg_image %}
+    <img src="{{ url_for('static', filename='images/bg/' + settings.bg_image) }}" class="current-bg" alt="Current background">
+    <p style="font-size:0.75rem; color:var(--gold-dim); margin-bottom:1rem;">✓ Current background: {{ settings.bg_image }}</p>
+    {% else %}
+    <div class="no-bg">No custom background set — using default gradient</div>
+    {% endif %}
+
+    <form method="post" action="/admin/settings" enctype="multipart/form-data">
+      <div class="upload-row">
+        <div class="upload-field">
+          <label>Upload new background (jpg, png, webp)</label>
+          <input type="file" name="bg_image" accept="image/*" required>
+        </div>
+        <button type="submit" class="admin-btn admin-btn-primary">Update Background</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
