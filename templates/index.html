@@ -3,13 +3,14 @@
 {% block content %}
 
 <section class="hero">
-  <div class="hero-photo-layer hero-photo-1"></div>
-  <div class="hero-photo-layer hero-photo-2"></div>
+  <div class="hero-slide active" style="background-image: url('{{ url_for('static', filename='images/hero/hero-1.jpg') }}');"></div>
+  <div class="hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero/hero-2.jpg') }}');"></div>
+  <div class="hero-slide" style="background-image: url('{{ url_for('static', filename='images/hero/hero-3.jpg') }}');"></div>
   <div class="hero-overlay"></div>
   <div class="hero-grain"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">{{ content.hero.eyebrow }}</p>
-    <h1 class="hero-title">{{ content.hero.title_line1 }}<br>Becomes <em>{{ content.hero.title_emphasis }}</em></h1>
+    <h1 class="hero-title">{{ content.hero.title_line1 }}<br><em>{{ content.hero.title_emphasis }}</em></h1>
     <p class="hero-tagline">{{ content.hero.tagline|safe }}</p>
     <div class="hero-actions">
       <a href="/collection" class="btn-primary">Explore Collection</a>

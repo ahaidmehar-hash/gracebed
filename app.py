@@ -147,12 +147,12 @@ SEED_CONTENT = {
         "tagline": "Heirloom-quality beds, handcrafted from the finest woods.<br>Designed to outlast generations."
     },
     "contact": {
-        "phone_display": "+44 1234 567 890",
-        "phone_link": "441234567890",
+        "phone_display": "+44 0735 916 4886",
+        "phone_link": "4407359164886",
         "email": "gracebeds01@outlook.com",
         "address": "Unit 2, 3 Siding Ln, Glasgow G5 0DZ, UK",
         "hours": "Mon–Sat: 10am – 8pm · Sun: 12pm – 6pm",
-        "whatsapp_number": "441234567890"
+        "whatsapp_number": "447359164886"
     },
     "footer": {
         "brand_desc": "Where the silence of ancient forests becomes the furniture of your dreams. Every Grace Bed is built by hand, built to last, built to be inherited.",

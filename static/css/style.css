@@ -145,40 +145,20 @@ nav {
   overflow: hidden;
 }
 
-.hero-photo-layer {
+.hero-slide {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  will-change: transform, opacity;
-}
-
-.hero-photo-1 {
-  background-image: url('../images/hero/hero-1.jpg');
-  animation: kenBurns1 20s ease-in-out infinite;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
   z-index: 1;
 }
-.hero-photo-2 {
-  background-image: url('../images/hero/hero-2.jpg');
-  animation: kenBurns2 20s ease-in-out infinite, crossfade 20s ease-in-out infinite;
-  z-index: 2;
-  opacity: 0;
-}
 
-@keyframes kenBurns1 {
-  0% { transform: scale(1.0) translate(0, 0); }
-  50% { transform: scale(1.12) translate(-2%, -1%); }
-  100% { transform: scale(1.0) translate(0, 0); }
-}
-@keyframes kenBurns2 {
-  0% { transform: scale(1.05) translate(1%, 0); }
-  50% { transform: scale(1.15) translate(-1%, -2%); }
-  100% { transform: scale(1.05) translate(1%, 0); }
-}
-@keyframes crossfade {
-  0%, 40% { opacity: 0; }
-  50%, 90% { opacity: 1; }
-  100% { opacity: 0; }
+.hero-slide.active {
+  opacity: 1;
+  z-index: 2;
 }
 
 .hero-overlay {
@@ -270,6 +250,43 @@ nav {
 @keyframes scrollPulse {
   0%, 100% { opacity: 0.4; transform: scaleY(1); }
   50% { opacity: 1; transform: scaleY(1.3); }
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  transition: all 0.3s ease-in-out;
+}
+
+.whatsapp-float:hover {
+  background-color: #1fbb5f;
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-float:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-float {
+    bottom: 20px;
+    right: 20px;
+    width: 54px;
+    height: 54px;
+  }
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────── */

@@ -3,6 +3,22 @@ const hamburger = document.querySelector('.hamburger');
 const mobileMenu = document.querySelector('.mobile-menu');
 const mobileClose = document.querySelector('.mobile-close');
 
+/* Hero slideshow */
+const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+if (heroSlides.length) {
+  let currentSlide = 0;
+
+  heroSlides.forEach((slide, index) => {
+    slide.classList.toggle('active', index === currentSlide);
+  });
+
+  setInterval(() => {
+    heroSlides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % heroSlides.length;
+    heroSlides[currentSlide].classList.add('active');
+  }, 3000);
+}
+
 if (hamburger && mobileMenu) {
   hamburger.addEventListener('click', () => {
     mobileMenu.classList.add('active');
