@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance - Grace Bed</title>
+  <meta name="description" content="Grace Bed is currently undergoing maintenance. We'll be back online shortly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #0a0a0a;
+      --bg-card: #1a1a1a;
+      --cream: #e8e4d0;
+      --cream-dim: #a89f8f;
+      --gold: #d4af37;
+      --gold-dim: #b8941f;
+      --border: #2a2a2a;
+      --red: #e74c3c;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-deep) 0%, #0f0f0f 100%);
+      color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative background elements */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .maintenance-container {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      text-align: center;
+      background: rgba(26, 26, 26, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4rem 2rem;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: 0.15em;
+    }
+
+    .logo span {
+      color: var(--gold);
+      display: inline-block;
+      margin-left: 0.3em;
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+    }
+
+    .subtitle {
+      color: var(--gold);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .message {
+      color: var(--cream-dim);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .contact-section {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-label {
+      color: var(--cream-dim);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .contact-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      color: var(--bg-deep);
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+      background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    }
+
+    .contact-btn.phone {
+      background: linear-gradient(135deg, var(--cream), var(--cream-dim));
+      color: var(--bg-deep);
+    }
+
+    .contact-btn.phone:hover {
+      box-shadow: 0 8px 20px rgba(232, 228, 208, 0.2);
+    }
+
+    .footer-text {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--cream-dim);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 600px) {
+      .maintenance-container {
+        padding: 2.5rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+      }
+
+      .contact-options {
+        flex-direction: column;
+      }
+
+      .contact-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="maintenance-container">
+    <div class="logo">Grace <span>Bed</span></div>
+    
+    <div class="icon">🔧</div>
+    
+    <h1>We're Currently Undergoing Maintenance</h1>
+    
+    <p class="subtitle">Temporary Unavailable</p>
+    
+    <p class="message">
+      We're working hard to bring you an even better experience. We'll be back online shortly. Thank you for your patience and understanding.
+    </p>
+
+    <div class="contact-section">
+      <p class="contact-label">Got an Urgent Enquiry?</p>
+      <div class="contact-options">
+        <a href="https://wa.me/{{ whatsapp_number }}?text=Hi%20Grace%20Bed%2C%20I%20have%20an%20urgent%20enquiry" 
+           class="contact-btn" 
+           target="_blank" 
+           rel="noopener noreferrer">
+          <span>💬</span> WhatsApp
+        </a>
+        <a href="tel:+{{ phone_link }}" class="contact-btn phone">
+          <span>📞</span> Call Us
+        </a>
+      </div>
+    </div>
+
+    <p class="footer-text">Grace Bed · Crafted with precision. Built to last.</p>
+  </div>
+</body>
+</html>

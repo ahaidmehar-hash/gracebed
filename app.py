@@ -36,6 +36,30 @@ app.config['MAIL_PASSWORD']       = os.environ.get('MAIL_PASSWORD', '')
 app.config['MAIL_DEFAULT_SENDER'] = 'gracebeds01@outlook.com'
 mail = Mail(app)
 
+# ── Maintenance Mode Configuration ─────────────────────────────────────────────
+MAINTENANCE_MODE = os.environ.get('MAINTENANCE_MODE', 'False').lower() == 'true'
+
+@app.before_request
+def check_maintenance_mode():
+    """
+    Check if maintenance mode is enabled.
+    If yes, show maintenance page for all routes except /admin/*
+    """
+    if MAINTENANCE_MODE:
+        # Allow admin routes to bypass maintenance mode
+        if request.path.startswith('/admin'):
+            return None
+        
+        # Load content for contact information
+        with open(CONTENT_JSON, 'r') as f:
+            content = json.load(f)
+        
+        return render_template(
+            'maintenance.html',
+            whatsapp_number=content['contact']['whatsapp_number'],
+            phone_link=content['contact']['phone_link']
+        ), 503
+
 SEED_PRODUCTS = {
     "royal-heritage": {
         "id": "royal-heritage",
